@@ -30,6 +30,7 @@ abstract public class Usuario {
     private String desc_profile;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+    private LocalDate dataEntrega;
 
     public Usuario() {
     }
@@ -150,5 +151,13 @@ abstract public class Usuario {
 
     public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public LocalDate getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(LocalDate dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
 }

@@ -93,7 +93,7 @@ public class EditorController {
     // Método auxiliar para verificar se os dados de um editor são válidos
     public boolean isEditorValido(Editor editor){
         if(editor.getNome().length() < 3 || editor.getNome().isBlank()
-                || editor.getSenha().length() < 3 || editor.getSenha().isBlank()
+                || editor.getPassword().length() < 3 || editor.getPassword().isBlank()
                 || editor.getEmail().length() < 3 || editor.getEmail().isBlank()){
             return false;
         }
