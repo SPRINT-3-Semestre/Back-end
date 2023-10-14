@@ -94,6 +94,7 @@ public class ClienteFinalController {
         return ResponseEntity.status(404).build();
     }
 
+    @CrossOrigin
     @GetMapping("/alerta")
     public String alerta(ClienteFinal cliente) {
         // Chama o método alertarPrazo do cliente e retorna a mensagem resultante como uma String
