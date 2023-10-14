@@ -10,10 +10,10 @@ public class UserHasAbility {
     private Integer idUserHasAbility;
     @ManyToOne
     @JoinColumn(name = "id")
-    private User id_user;
+    private User idUser;
     @ManyToOne
     @JoinColumn(name = "id")
-    private Ability id_ability;
+    private Ability idAbility;
 
     public Integer getIdUserHasAbility() {
         return idUserHasAbility;
@@ -23,19 +23,19 @@ public class UserHasAbility {
         this.idUserHasAbility = idUserHasAbility;
     }
 
-    public User getUsuario_id() {
-        return id_user;
+    public User getIdUser() {
+        return idUser;
     }
 
     public void setUsuario_id(User user_id) {
-        this.id_user = user_id;
+        this.idUser = user_id;
     }
 
-    public Ability getAbility_id() {
-        return id_ability;
+    public Ability getIdAbility() {
+        return idAbility;
     }
 
-    public void setAbility_id(Ability ability_id) {
-        this.id_ability = ability_id;
+    public void setIdAbility(Ability ability_id) {
+        this.idAbility = idAbility;
     }
 }
