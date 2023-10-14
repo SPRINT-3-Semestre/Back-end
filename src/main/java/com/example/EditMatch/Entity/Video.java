@@ -10,9 +10,9 @@ public class Video {
     private Integer id;
     private String title;
     private String descricao;
-    private Long link;
-    @ManyToOne // Define o relacionamento muitos-para-um
-    @JoinColumn(name = "user_id") // Define o nome da coluna da chave estrangeira
+    private String link;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private Usuario usuario;
 
     public Integer getId() {
@@ -39,11 +39,11 @@ public class Video {
         this.descricao = descricao;
     }
 
-    public Long getLink() {
+    public String getLink() {
         return link;
     }
 
-    public void setLink(Long link) {
+    public void setLink(String link) {
         this.link = link;
     }
 
