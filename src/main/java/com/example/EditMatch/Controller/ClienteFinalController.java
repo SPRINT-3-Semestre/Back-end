@@ -36,7 +36,7 @@ public class ClienteFinalController {
         List<ClienteFinal> usuarios = this.clienteRepository.findAll();
         if (usuarios.isEmpty()) {
             // Retorna uma resposta com status 404 (Not Found) se a lista estiver vazia
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(204).build();
         }
         // Retorna a lista de usuários com status 200 (OK)
         return ResponseEntity.status(200).body(usuarios);
@@ -76,8 +76,8 @@ public class ClienteFinalController {
         clienteFinal.setId(id);
         if (this.clienteRepository.existsById(id)) {
             // Atualiza o cliente no repositório e retorna uma resposta com status 200 (OK)
-            Usuario usuarioAtualizado = this.clienteRepository.save(clienteFinal);
-            return ResponseEntity.status(200).body(usuarioAtualizado);
+            this.clienteFinalService.atualizar(id, clienteFinal);
+            return ResponseEntity.status(200).body(clienteFinal);
         }
         // Retorna uma resposta com status 404 (Not Found) se o cliente não existe no repositório
         return ResponseEntity.status(404).build();

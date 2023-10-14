@@ -38,6 +38,13 @@ public class EditorService {
         this.editorRepositoryJwt.save(novoEditor);
     }
 
+    public void atualizar(int id, Editor novoEditor){
+        String senhaCriptografada = passwordEncoder.encode(novoEditor.getPassword());
+        novoEditor.setPassword(senhaCriptografada);
+
+        this.editorRepositoryJwt.save(novoEditor);
+    }
+
     public EditorTokenDto autenticar(EditorLoginDto editorLoginDto) {
 
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(

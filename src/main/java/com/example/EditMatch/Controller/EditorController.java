@@ -38,7 +38,7 @@ public class EditorController {
         // Verifica se a lista de usuários está vazia
         if (usuarios.isEmpty()) {
             // Retorna uma resposta HTTP 404 (Not Found) se não houver usuários
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(204).build();
         }
 
         // Retorna uma resposta HTTP 200 (OK) com a lista de usuários no corpo da resposta
@@ -81,10 +81,10 @@ public class EditorController {
         // Verifica se o editor com o ID especificado existe no banco de dados
         if (this.editorRepository.existsById(id)) {
             // Atualiza os dados do editor e o salva no banco de dados
-            Usuario usuarioAtualizado = this.editorRepository.save(editorFinal);
+            this.editorService.atualizar(id, editorFinal);
 
             // Retorna uma resposta HTTP 200 (OK) com o editor atualizado no corpo da resposta
-            return ResponseEntity.status(200).body(usuarioAtualizado);
+            return ResponseEntity.status(200).body(editorFinal);
         }
 
         // Retorna uma resposta HTTP 404 (Not Found) se o editor não existe

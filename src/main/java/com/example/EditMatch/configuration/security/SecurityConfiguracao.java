@@ -53,10 +53,14 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/webjars/**"),
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
-            new AntPathRequestMatcher("/editores/login/**"),
-            new AntPathRequestMatcher("/clientes/login/**"),
             new AntPathRequestMatcher("/editores"),
+            new AntPathRequestMatcher("/editores/login/**"),
+            new AntPathRequestMatcher("/editores/{id}"),
+            new AntPathRequestMatcher("/editores/alerta"),
             new AntPathRequestMatcher("/clientes"),
+            new AntPathRequestMatcher("/clientes/login/**"),
+            new AntPathRequestMatcher("/clientes/{id}"),
+            new AntPathRequestMatcher("/clientes/alerta"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**")
     };

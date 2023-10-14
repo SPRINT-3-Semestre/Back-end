@@ -56,4 +56,11 @@ public class ClienteFinalService {
 
         return ClienteFinalMapper.of(clienteAutenticado, token);
     }
+
+    public void atualizar(int id, ClienteFinal clienteFinal) {
+        String senhaCriptografada = passwordEncoder.encode(clienteFinal.getPassword());
+        clienteFinal.setPassword(senhaCriptografada);
+
+        this.clienteFinalRepositoryJwt.save(clienteFinal);
+    }
 }
