@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class Editor extends Usuario{
+public class Editor extends User {
     private List<String> portifolio = new ArrayList<>();
     private String link;
 

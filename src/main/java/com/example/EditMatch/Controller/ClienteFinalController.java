@@ -1,8 +1,8 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.ClienteFinal;
-import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.UsuarioRepository;
+import com.example.EditMatch.Entity.User;
+import com.example.EditMatch.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,36 +10,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/clients")
 public class ClienteFinalController {
 
     // Injeção de dependência do repositório de usuários
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
     // Configuração para permitir solicitações de diferentes origens (CORS)
     @CrossOrigin
-    @GetMapping()
-    public ResponseEntity<List<Usuario>> listar() {
+    @GetMapping
+    public ResponseEntity<List<User>> listar() {
         // Obtém a lista de todos os usuários do repositório
-        List<Usuario> usuarios = this.usuarioRepository.findAll();
-        if (usuarios.isEmpty()) {
+        List<User> users = this.userRepository.findAll();
+        if (users.isEmpty()) {
             // Retorna uma resposta com status 404 (Not Found) se a lista estiver vazia
             return ResponseEntity.status(404).build();
         }
         // Retorna a lista de usuários com status 200 (OK)
-        return ResponseEntity.status(200).body(usuarios);
+        return ResponseEntity.status(200).body(users);
     }
 
     // Configuração para permitir solicitações de diferentes origens (CORS)
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<Usuario> cadastrar(@RequestBody ClienteFinal cliente) {
+    public ResponseEntity<User> cadastrar(@RequestBody ClienteFinal cliente) {
         // Verifica se o cliente fornecido é válido usando o método isClienteValido
         if (isClienteValido(cliente)) {
             // Salva o cliente no repositório e retorna uma resposta com status 201 (Created)
-            Usuario usuarioSalvo = this.usuarioRepository.save(cliente);
-            return ResponseEntity.status(201).body(usuarioSalvo);
+            User userSalvo = this.userRepository.save(cliente);
+            return ResponseEntity.status(201).body(userSalvo);
         }
         // Retorna uma resposta com status 400 (Bad Request) se o cliente não for válido
         return ResponseEntity.status(400).build();
@@ -48,23 +48,23 @@ public class ClienteFinalController {
     // Configuração para permitir solicitações de diferentes origens (CORS)
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody ClienteFinal clienteFinal){
+    public ResponseEntity<User> atualizar(@PathVariable int id, @RequestBody ClienteFinal clienteFinal){
         // Define o ID do clienteFinal com base no parâmetro da URL
         clienteFinal.setId(id);
-        if(this.usuarioRepository.existsById(id)){
+        if(this.userRepository.existsById(id)){
             // Atualiza o cliente no repositório e retorna uma resposta com status 200 (OK)
-            Usuario usuarioAtualizado = this.usuarioRepository.save(clienteFinal);
-            return ResponseEntity.status(200).body(usuarioAtualizado);
+            User userAtualizado = this.userRepository.save(clienteFinal);
+            return ResponseEntity.status(200).body(userAtualizado);
         }
         // Retorna uma resposta com status 404 (Not Found) se o cliente não existe no repositório
         return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Usuario> delete(@PathVariable int id){
-        if(this.usuarioRepository.existsById(id)){
+    public ResponseEntity<User> delete(@PathVariable int id){
+        if(this.userRepository.existsById(id)){
             // Exclui o cliente do repositório e retorna uma resposta com status 200 (OK)
-            this.usuarioRepository.deleteById(id);
+            this.userRepository.deleteById(id);
             return ResponseEntity.status(200).build();
         }
         // Retorna uma resposta com status 404 (Not Found) se o cliente não existe no repositório

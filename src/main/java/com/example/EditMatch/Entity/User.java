@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-abstract public class Usuario {
+abstract public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +53,7 @@ abstract public class Usuario {
     @Future(message = "A data de entrega deve estar no futuro")
     private LocalDate dataEntrega;
 
-    public Usuario() {
+    public User() {
     }
 
     // APLIQUE UMA LÓGICA DE IMPLEMENTAÇÃO QUE FAÇA SENTIDO NESSE MÉTODO DE FORMAS DIFERENTES

@@ -1,6 +1,7 @@
 package com.example.EditMatch.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 
 @Entity
 public class Video {
@@ -8,12 +9,18 @@ public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Max(50)
     private String title;
+
+    @Max(100)
     private String descricao;
+
+    @Max(100)
     private String link;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Usuario usuario;
+    @JoinColumn(name = "id")
+    private User id_user;
 
     public Integer getId() {
         return id;
@@ -47,11 +54,11 @@ public class Video {
         this.link = link;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public User getIdUser() {
+        return id_user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUser(User id_user) {
+        this.id_user = id_user;
     }
 }

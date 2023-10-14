@@ -1,14 +1,13 @@
 package com.example.EditMatch.Controller;
 
-import com.example.EditMatch.Entity.Usuario;
+import com.example.EditMatch.Entity.User;
 import com.example.EditMatch.Entity.Video;
-import com.example.EditMatch.Repository.UsuarioRepository;
+import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class VideoController {
     @Autowired
     private VideoRepository videoRepository;
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<Video>> listar() {
@@ -38,11 +37,11 @@ public class VideoController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<?> createVideo(@PathVariable Integer userId, @RequestBody Video video) {
-        Optional<Usuario> userOptional = usuarioRepository.findById(userId);
+        Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
-            Usuario user = userOptional.get();
-            video.setUsuario(user);
+            User user = userOptional.get();
+            video.setIdUser(user);
             videoRepository.save(video);
             return ResponseEntity.ok("Vídeo criado com sucesso.");
         } else {
