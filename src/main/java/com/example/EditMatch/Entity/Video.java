@@ -19,8 +19,8 @@ public class Video {
     @Max(100)
     private String link;
     @ManyToOne
-    @JoinColumn(name = "id")
-    private User id_user;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Integer getId() {
         return id;
@@ -54,11 +54,11 @@ public class Video {
         this.link = link;
     }
 
-    public User getIdUser() {
-        return id_user;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(User id_user) {
-        this.id_user = id_user;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 public class SocialNetwork {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -13,12 +14,12 @@ public class SocialNetwork {
     private String link;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    private User id_user;
+    @JoinColumn(name = "user_id") // Use o nome da coluna apropriado
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private SocialNetworkType id_social_network_type;
+    @JoinColumn(name = "social_network_type_id") // Use o nome da coluna apropriado
+    private SocialNetworkType socialNetworkType;
 
     public int getId() {
         return id;
@@ -36,19 +37,19 @@ public class SocialNetwork {
         this.link = link;
     }
 
-    public User getUser_id() {
-        return id_user;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(User user_id) {
-        this.id_user = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public SocialNetworkType getId_social_network_type() {
-        return id_social_network_type;
+    public SocialNetworkType getSocialNetworkType() {
+        return socialNetworkType;
     }
 
-    public void setId_social_network_type(SocialNetworkType id_social_network_type) {
-        this.id_social_network_type = id_social_network_type;
+    public void setSocialNetworkType(SocialNetworkType socialNetworkType) {
+        this.socialNetworkType = socialNetworkType;
     }
 }

@@ -41,7 +41,7 @@ public class VideoController {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            video.setIdUser(user);
+            video.setUser(user);
             videoRepository.save(video);
             return ResponseEntity.ok("Vídeo criado com sucesso.");
         } else {

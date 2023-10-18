@@ -8,12 +8,14 @@ public class UserHasAbility {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUserHasAbility;
+
     @ManyToOne
-    @JoinColumn(name = "id")
-    private User idUser;
+    @JoinColumn(name = "user_id") // Nomeie a coluna para a associação com User
+    private User user;
+
     @ManyToOne
-    @JoinColumn(name = "id")
-    private Ability idAbility;
+    @JoinColumn(name = "ability_id") // Nomeie a coluna para a associação com Ability
+    private Ability ability;
 
     public Integer getIdUserHasAbility() {
         return idUserHasAbility;
@@ -23,19 +25,19 @@ public class UserHasAbility {
         this.idUserHasAbility = idUserHasAbility;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsuario_id(User user_id) {
-        this.idUser = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Ability getIdAbility() {
-        return idAbility;
+    public Ability getAbility() {
+        return ability;
     }
 
-    public void setIdAbility(Ability ability_id) {
-        this.idAbility = idAbility;
+    public void setAbility(Ability ability) {
+        this.ability = ability;
     }
 }
