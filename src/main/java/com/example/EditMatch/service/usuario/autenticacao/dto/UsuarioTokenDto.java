@@ -1,6 +1,6 @@
-package com.example.EditMatch.service.usuario.autenticacao.dto.editor;
+package com.example.EditMatch.service.usuario.autenticacao.dto;
 
-public class EditorTokenDto {
+public class UsuarioTokenDto {
 
     private Integer userId;
     private String nome;

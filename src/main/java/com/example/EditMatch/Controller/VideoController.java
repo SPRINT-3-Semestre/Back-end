@@ -1,6 +1,6 @@
 package com.example.EditMatch.Controller;
 
-import com.example.EditMatch.Entity.User;
+import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Entity.Video;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Repository.VideoRepository;
@@ -37,10 +37,10 @@ public class VideoController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<?> createVideo(@PathVariable Integer userId, @RequestBody Video video) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<Usuario> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
+            Usuario user = userOptional.get();
             video.setUser(user);
             videoRepository.save(video);
             return ResponseEntity.ok("Vídeo criado com sucesso.");

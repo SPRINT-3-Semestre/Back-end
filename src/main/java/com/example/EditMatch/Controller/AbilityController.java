@@ -1,7 +1,6 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Ability;
-import com.example.EditMatch.Entity.User;
 import com.example.EditMatch.Repository.AbilityRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/abilitys")
 public class AbilityController {
     private AbilityRepository abilityRepository;
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Ability> cadastrar(@RequestBody Ability ability){
         return ResponseEntity.of(Optional.of(abilityRepository.save(ability)));
     }

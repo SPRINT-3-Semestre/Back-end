@@ -11,7 +11,7 @@ public class UserHasAbility {
 
     @ManyToOne
     @JoinColumn(name = "user_id") // Nomeie a coluna para a associação com User
-    private User user;
+    private Usuario user;
 
     @ManyToOne
     @JoinColumn(name = "ability_id") // Nomeie a coluna para a associação com Ability
@@ -25,11 +25,11 @@ public class UserHasAbility {
         this.idUserHasAbility = idUserHasAbility;
     }
 
-    public User getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 

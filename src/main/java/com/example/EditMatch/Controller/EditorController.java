@@ -1,26 +1,35 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Editor;
-import com.example.EditMatch.Entity.User;
+import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.service.usuario.UsuarioService;
+import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
+import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/editors")
+@RequestMapping("/editores")
 public class EditorController {
 
     // Injeção de dependência do repositório de usuários
     @Autowired
     private UserRepository userRepository;
 
+    private final UsuarioService editorService;
+
+    public EditorController(UsuarioService editorService) {
+        this.editorService = editorService;
+    }
+
     // Endpoint para listar todos os usuários/editores
     @GetMapping
-    public ResponseEntity<List<User>> listar() {
+    public ResponseEntity<List<Usuario>> listar() {
         // Busca todos os usuários no banco de dados
-        List<User> users = this.userRepository.findAll();
+        List<Usuario> users = this.userRepository.findAll();
 
         // Verifica se a lista de usuários está vazia
         if (users.isEmpty()) {
@@ -32,33 +41,16 @@ public class EditorController {
         return ResponseEntity.status(200).body(users);
     }
 
-    // Endpoint para cadastrar um novo editor
-    @PostMapping
-    public ResponseEntity<User> cadastrar(@RequestBody Editor editor) {
-        // Verifica se já existe um usuário com o mesmo email
-        User userExistente = userRepository.findByEmail(editor.getEmail());
-        if (userExistente != null) {
-            // Retorna uma resposta HTTP 400 (Bad Request) se o email já estiver em uso
-            return ResponseEntity.status(400).build();
-        }
-
-        // Salva o novo editor no banco de dados
-        User editorSalvo = userRepository.save(editor);
-
-        // Retorna uma resposta HTTP 200 (OK) com o novo editor no corpo da resposta
-        return ResponseEntity.status(200).body(editorSalvo);
-    }
-
     // Endpoint para atualizar os dados de um editor existente
     @PutMapping("/{id}")
-    public ResponseEntity<User> atualizar(@PathVariable int id, @RequestBody Editor editorFinal){
+    public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody Editor editorFinal){
         // Define o ID do editor com base no parâmetro da URL
         editorFinal.setId(id);
 
         // Verifica se o editor com o ID especificado existe no banco de dados
         if(this.userRepository.existsById(id)){
             // Atualiza os dados do editor e o salva no banco de dados
-            User userAtualizado = this.userRepository.save(editorFinal);
+            Usuario userAtualizado = this.userRepository.save(editorFinal);
 
             // Retorna uma resposta HTTP 200 (OK) com o editor atualizado no corpo da resposta
             return ResponseEntity.status(200).body(userAtualizado);
@@ -70,7 +62,7 @@ public class EditorController {
 
     // Endpoint para excluir um editor pelo ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> delete(@PathVariable int id){
+    public ResponseEntity<Usuario> delete(@PathVariable int id){
         // Verifica se o editor com o ID especificado existe no banco de dados
         if(this.userRepository.existsById(id)){
             // Exclui o editor do banco de dados

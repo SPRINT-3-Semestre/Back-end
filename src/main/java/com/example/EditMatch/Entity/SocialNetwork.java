@@ -15,7 +15,7 @@ public class SocialNetwork {
 
     @ManyToOne
     @JoinColumn(name = "user_id") // Use o nome da coluna apropriado
-    private User user;
+    private Usuario user;
 
     @ManyToOne
     @JoinColumn(name = "social_network_type_id") // Use o nome da coluna apropriado
@@ -37,11 +37,11 @@ public class SocialNetwork {
         this.link = link;
     }
 
-    public User getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 

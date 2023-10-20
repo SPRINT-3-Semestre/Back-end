@@ -7,11 +7,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class Editor extends User {
+public class Editor extends Usuario {
     private List<String> portifolio = new ArrayList<>();
     private String link;
 
-    @Override
+
     public String alertarPrazo() {
         LocalDate dataAtual = LocalDate.now();
         LocalDate dataEntrega = getDataEntrega();

@@ -1,8 +1,8 @@
-package com.example.EditMatch.service.usuario.autenticacao.dto.cliente;
+package com.example.EditMatch.service.usuario.autenticacao.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class ClienteFinalLoginDto {
+public class UsuarioLoginDto {
 
     @Schema(description = "E-mail do usuário", example = "john@doe.com")
     private String email;

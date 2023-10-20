@@ -20,7 +20,7 @@ public class Video {
     private String link;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Usuario user;
 
     public Integer getId() {
         return id;
@@ -54,11 +54,11 @@ public class Video {
         this.link = link;
     }
 
-    public User getUser() {
+    public Usuario getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 }

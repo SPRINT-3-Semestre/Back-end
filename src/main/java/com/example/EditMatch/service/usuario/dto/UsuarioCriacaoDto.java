@@ -1,9 +1,9 @@
-package com.example.EditMatch.service.usuario.dto.editor;
+package com.example.EditMatch.service.usuario.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-public class EditorCriacaoDto {
+public class UsuarioCriacaoDto {
 
     @Size(min = 3, max = 10)
     private String nome;

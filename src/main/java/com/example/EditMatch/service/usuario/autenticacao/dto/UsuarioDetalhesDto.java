@@ -1,6 +1,6 @@
 package com.example.EditMatch.service.usuario.autenticacao.dto;
 
-import com.example.EditMatch.Entity.User;
+import com.example.EditMatch.Entity.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +14,7 @@ public class UsuarioDetalhesDto implements UserDetails {
 
     private final String senha;
 
-    public UsuarioDetalhesDto(User usuario) {
+    public UsuarioDetalhesDto(Usuario usuario) {
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
         this.senha = usuario.getPassword();

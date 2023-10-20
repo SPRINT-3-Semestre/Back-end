@@ -1,14 +1,15 @@
 package com.example.EditMatch.Repository;
 
 import com.example.EditMatch.Entity.Ability;
-import com.example.EditMatch.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AbilityRepository extends JpaRepository<Ability, Integer> {
 
-    List<Ability> findByIdAndDesc();
-    List<Ability> findById(int id);
+    @Override
+    Optional<Ability> findById(Integer integer);
+
     List<Ability> findByDesc(String desc);
 }

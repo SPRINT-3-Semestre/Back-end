@@ -1,11 +1,12 @@
 package com.example.EditMatch.service.usuario;
 
 import com.example.EditMatch.Entity.Editor;
-import com.example.EditMatch.Repository.editor.EditorRepositoryJWT;
+import com.example.EditMatch.Entity.Usuario;
+import com.example.EditMatch.Repository.UsuarioRepositoryJWT;
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
-import com.example.EditMatch.service.usuario.autenticacao.dto.editor.EditorLoginDto;
-import com.example.EditMatch.service.usuario.autenticacao.dto.editor.EditorTokenDto;
-import com.example.EditMatch.service.usuario.dto.editor.EditorMapper;
+import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
+import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import com.example.EditMatch.service.usuario.dto.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,12 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class EditorService {
+public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EditorRepositoryJWT editorRepositoryJwt;
+    private UsuarioRepositoryJWT usuarioRepositoryJwt;
 
     @Autowired
     private GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -29,31 +30,31 @@ public class EditorService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public void cadastrar(Editor editor) {
-        final Editor novoEditor = editor;
+    public void cadastrar(Usuario usuario) {
+        final Usuario novoUsuario = usuario;
 
-        String senhaCriptografada = passwordEncoder.encode(novoEditor.getPassword());
-        novoEditor.setPassword(senhaCriptografada);
+        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getPassword());
+        novoUsuario.setPassword(senhaCriptografada);
 
-        this.editorRepositoryJwt.save(novoEditor);
+        this.usuarioRepositoryJwt.save(novoUsuario);
     }
 
     public void atualizar(int id, Editor novoEditor){
         String senhaCriptografada = passwordEncoder.encode(novoEditor.getPassword());
         novoEditor.setPassword(senhaCriptografada);
 
-        this.editorRepositoryJwt.save(novoEditor);
+        this.usuarioRepositoryJwt.save(novoEditor);
     }
 
-    public EditorTokenDto autenticar(EditorLoginDto editorLoginDto) {
+    public UsuarioTokenDto autenticar(UsuarioLoginDto usuarioLoginDto) {
 
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                editorLoginDto.getEmail(), editorLoginDto.getSenha());
+                usuarioLoginDto.getEmail(), usuarioLoginDto.getSenha());
 
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
-        Editor editorAutenticado =
-                editorRepositoryJwt.findByEmail(editorLoginDto.getEmail())
+        Usuario usuarioAutenticado =
+                usuarioRepositoryJwt.findByEmail(usuarioLoginDto.getEmail())
                         .orElseThrow(
                                 () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
                         );
@@ -62,6 +63,6 @@ public class EditorService {
 
         final String token = gerenciadorTokenJwt.generateToken(authentication);
 
-        return EditorMapper.of(editorAutenticado, token);
+        return UsuarioMapper.of(usuarioAutenticado, token);
     }
 }
