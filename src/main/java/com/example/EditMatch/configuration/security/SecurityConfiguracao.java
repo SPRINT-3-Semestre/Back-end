@@ -60,6 +60,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/clientes/{id}"),
             new AntPathRequestMatcher("/clientes/alerta"),
             new AntPathRequestMatcher("/usuarios"),
+            new AntPathRequestMatcher("/usuarios/download/csv"),
             new AntPathRequestMatcher("/usuarios/login/**"),
             new AntPathRequestMatcher("/videos"),
             new AntPathRequestMatcher("/videos/{userId}"),
