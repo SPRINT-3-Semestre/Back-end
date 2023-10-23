@@ -4,8 +4,8 @@ import com.example.EditMatch.Entity.Editor;
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.service.usuario.UsuarioService;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/editores")
+@Api(value = "EditorController", description = "Controladora de editor")
 public class EditorController {
 
     // Injeção de dependência do repositório de usuários
@@ -27,6 +28,7 @@ public class EditorController {
 
     // Endpoint para listar todos os usuários/editores
     @GetMapping
+    @ApiOperation(value = "Lista usuarios", notes = "Retorna todos os usuarios listados")
     public ResponseEntity<List<Usuario>> listar() {
         // Busca todos os usuários no banco de dados
         List<Usuario> users = this.userRepository.findAll();
@@ -43,6 +45,7 @@ public class EditorController {
 
     // Endpoint para atualizar os dados de um editor existente
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualiza usuario", notes = "Retorna o usuarios atualizado")
     public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody Editor editorFinal){
         // Define o ID do editor com base no parâmetro da URL
         editorFinal.setId(id);
@@ -62,6 +65,7 @@ public class EditorController {
 
     // Endpoint para excluir um editor pelo ID
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleta usuario", notes = "Retorna o status 200 caso de certo")
     public ResponseEntity<Usuario> delete(@PathVariable int id){
         // Verifica se o editor com o ID especificado existe no banco de dados
         if(this.userRepository.existsById(id)){
@@ -78,6 +82,7 @@ public class EditorController {
 
     // Endpoint personalizado para alerta de prazo, que retorna uma mensagem
     @GetMapping("/alerta")
+    @ApiOperation(value = "Avisa o editor da data de entregado do video", notes = "Retorna uma data para o editor")
     public String alerta(Editor editor){
         return editor.alertarPrazo();
     }

@@ -5,6 +5,8 @@ import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +21,7 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping("/usuarios")
+@Api(value = "UsuarioController", description = "Controladora de usuarios")
 public class UsuarioController {
 
     @Autowired
@@ -32,6 +35,7 @@ public class UsuarioController {
 
     @CrossOrigin
     @PostMapping
+    @ApiOperation(value = "Cadastra usuarios", notes = "Retorna o usuario cadastrado")
     public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
         // Verifica se já existe um usuário com o mesmo email
         Usuario userExistente = userRepository.findByEmail(usuario.getEmail());
@@ -49,6 +53,7 @@ public class UsuarioController {
 
     @CrossOrigin
     @PostMapping("/login")
+    @ApiOperation(value = "Login de usuarios", notes = "login de usuarios")
     public ResponseEntity<UsuarioTokenDto> login(@RequestBody UsuarioLoginDto usuarioLoginDto) {
         UsuarioTokenDto editorTokenDto = this.usuarioService.autenticar(usuarioLoginDto);
 
@@ -56,6 +61,7 @@ public class UsuarioController {
     }
     @CrossOrigin
     @GetMapping("/download/csv")
+    @ApiOperation(value = "Baixa CSV", notes = "baixar CSV")
     public ResponseEntity<InputStreamResource> downloadCsv(){
         try {
             // Chama o método para gerar o arquivo CSV com base no nome fornecido

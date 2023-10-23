@@ -4,6 +4,8 @@ import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Entity.Video;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Repository.VideoRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/videos")
+@Api(value = "VideoController", description = "Controladora de videos")
 public class VideoController {
     // Injeção de dependência do repositório de usuários
     @Autowired
@@ -21,6 +24,7 @@ public class VideoController {
     private UserRepository userRepository;
 
     @GetMapping
+    @ApiOperation(value = "Lista videos", notes = "Retorna todos os videos cadastrados")
     public ResponseEntity<List<Video>> listar() {
         // Busca todos os usuários no banco de dados
         List<Video> videos = this.videoRepository.findAll();
@@ -36,6 +40,7 @@ public class VideoController {
     }
 
     @PostMapping("/{userId}")
+    @ApiOperation(value = "Cadastra videos", notes = "Retorna 200 caso tenha cadastrado corretamente")
     public ResponseEntity<?> createVideo(@PathVariable Integer userId, @RequestBody Video video) {
         Optional<Usuario> userOptional = userRepository.findById(userId);
 
@@ -50,6 +55,7 @@ public class VideoController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualiza videos", notes = "Retorna 200 caso tenha atulizado corretamente")
     public ResponseEntity<Video> atualizar(@PathVariable int id, @RequestBody Video video){
         // Define o ID do editor com base no parâmetro da URL
         video.setId(id);
@@ -68,6 +74,7 @@ public class VideoController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleta videos", notes = "Retorna 200 caso tenha deletado corretamente")
     public ResponseEntity<Video> delete(@PathVariable int id){
         // Verifica se o editor com o ID especificado existe no banco de dados
         if(this.videoRepository.existsById(id)){
