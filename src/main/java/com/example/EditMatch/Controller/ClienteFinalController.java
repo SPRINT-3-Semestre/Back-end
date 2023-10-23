@@ -3,6 +3,8 @@ package com.example.EditMatch.Controller;
 import com.example.EditMatch.Entity.ClienteFinal;
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.UserRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
+@Api(value = "ClienteFinalController", description = "Controladora de cliente final")
 public class ClienteFinalController {
 
     // Injeção de dependência do repositório de usuários
@@ -20,6 +23,7 @@ public class ClienteFinalController {
     // Configuração para permitir solicitações de diferentes origens (CORS)
     @CrossOrigin
     @GetMapping
+    @ApiOperation(value = "Lista cliente", notes = "Retorna todos os clientes listados")
     public ResponseEntity<List<Usuario>> listar() {
         // Obtém a lista de todos os usuários do repositório
         List<Usuario> users = this.userRepository.findAll();
@@ -33,6 +37,7 @@ public class ClienteFinalController {
     // Configuração para permitir solicitações de diferentes origens (CORS)
     @CrossOrigin
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualiza usuario", notes = "Retorna o usuario atualizado")
     public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody ClienteFinal clienteFinal){
         // Define o ID do clienteFinal com base no parâmetro da URL
         clienteFinal.setId(id);
@@ -46,6 +51,7 @@ public class ClienteFinalController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleta usuario", notes = "Retorna 200 code caso de certo")
     public ResponseEntity<Usuario> delete(@PathVariable int id){
         if(this.userRepository.existsById(id)){
             // Exclui o cliente do repositório e retorna uma resposta com status 200 (OK)
@@ -57,6 +63,7 @@ public class ClienteFinalController {
     }
 
     @GetMapping("/alerta")
+    @ApiOperation(value = "Avisa cliente", notes = "Retorna uma data")
     public String alerta(ClienteFinal cliente){
         // Chama o método alertarPrazo do cliente e retorna a mensagem resultante como uma String
         return cliente.alertarPrazo();
