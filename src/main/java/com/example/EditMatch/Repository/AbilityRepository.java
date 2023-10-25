@@ -11,5 +11,9 @@ public interface AbilityRepository extends JpaRepository<Ability, Integer> {
     @Override
     Optional<Ability> findById(Integer integer);
 
+    Optional<Ability> findById(int id);
+
+    Optional<Ability> deleteById(int id);
+
     List<Ability> findByDesc(String desc);
 }
