@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/clientes")
 @Api(value = "ClienteFinalController", description = "Controladora de cliente final")
 public class ClienteFinalController {
 

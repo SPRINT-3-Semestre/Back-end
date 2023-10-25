@@ -56,7 +56,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/editores"),
             new AntPathRequestMatcher("/editores/{id}"),
             new AntPathRequestMatcher("/editores/alerta"),
-            new AntPathRequestMatcher("/clientes"),
+       //     new AntPathRequestMatcher("/clientes"),
             new AntPathRequestMatcher("/clientes/{id}"),
             new AntPathRequestMatcher("/clientes/alerta"),
             new AntPathRequestMatcher("/usuarios"),
