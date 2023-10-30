@@ -1,5 +1,7 @@
 package com.example.EditMatch.service.usuario;
 
+import com.example.EditMatch.Entity.Usuario;
+
 public class ListaObj<T>{
     private T[] vetor;
     private int nroElem;
@@ -93,4 +95,29 @@ public class ListaObj<T>{
     public T getElemento(Integer id){
         return vetor[id];
     }
+
+    public T[] selectionSortIndice(T[] v) {
+        for (int i = 0; i < v.length - 1; i++) {
+            int menorVariavelIndice = i;
+
+            for (int j = i + 1; j < v.length; j++) {
+                // Precisamos comparar as datas de nascimento dos objetos
+                Usuario usuarioAtual = (Usuario) v[menorVariavelIndice];
+                Usuario usuarioComparado = (Usuario) v[j];
+
+                // Compare as datas de nascimento usando o método compareTo
+                if (usuarioComparado.getBirth().compareTo(usuarioAtual.getBirth()) < 0) {
+                    menorVariavelIndice = j;
+                }
+            }
+
+            // Troque os objetos nas posições i e menorVariavelIndice
+            T aux = v[menorVariavelIndice];
+            v[menorVariavelIndice] = v[i];
+            v[i] = aux;
+        }
+
+        return v;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.service.usuario.ListaObj;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
@@ -29,8 +30,11 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    private ListaObj<Usuario> listaUsuario;
+
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
+        listaUsuario = new ListaObj<>(100);
     }
 
     @CrossOrigin
@@ -46,6 +50,7 @@ public class UsuarioController {
 
         // Salva o novo editor no banco de dados
         this.usuarioService.cadastrar(usuario);
+        listaUsuario.adicionar(usuario);
 
         // Retorna uma resposta HTTP 200 (OK) com o novo editor no corpo da resposta
         return ResponseEntity.status(200).body(usuario);
