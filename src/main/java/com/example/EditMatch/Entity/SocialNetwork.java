@@ -2,8 +2,12 @@ package com.example.EditMatch.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class SocialNetwork {
 
     @Id
@@ -21,35 +25,4 @@ public class SocialNetwork {
     @JoinColumn(name = "social_network_type_id") // Use o nome da coluna apropriado
     private SocialNetworkType socialNetworkType;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Usuario getUser() {
-        return user;
-    }
-
-    public void setUser(Usuario user) {
-        this.user = user;
-    }
-
-    public SocialNetworkType getSocialNetworkType() {
-        return socialNetworkType;
-    }
-
-    public void setSocialNetworkType(SocialNetworkType socialNetworkType) {
-        this.socialNetworkType = socialNetworkType;
-    }
 }

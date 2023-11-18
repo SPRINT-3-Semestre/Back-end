@@ -2,92 +2,110 @@ package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Editor;
 import com.example.EditMatch.Entity.Usuario;
+import com.example.EditMatch.Repository.EditorRepository;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.service.usuario.UsuarioService;
+import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/editores")
+@RequiredArgsConstructor
 @Api(value = "EditorController", description = "Controladora de editor")
 public class EditorController {
 
-    // Injeção de dependência do repositório de usuários
-    @Autowired
-    private UserRepository userRepository;
+    private final UsuarioService usuarioService;
+    private final EditorRepository editorRepository;
 
-    private final UsuarioService editorService;
+    @GetMapping("/{listarResumo}")
+    public ResponseEntity<List<EditorResumoDto>> listarResumo() {
+        List<Editor> editores = editorRepository.findAll();
 
-    public EditorController(UsuarioService editorService) {
-        this.editorService = editorService;
+        List<EditorResumoDto> editorResumoDtoArrayList = new ArrayList<>();
+
+        for (Editor e: editores ) {
+            EditorResumoDto editorResumoDto = new EditorResumoDto();
+            editorResumoDto.setId(e.getId());
+            editorResumoDto.setNome(e.getNome());
+            editorResumoDto.setHabilidades(e.getHabilidades());
+            editorResumoDto.setValorHora(e.getValorHora());
+            editorResumoDto.setPhoto_profile(e.getPhoto_profile());
+
+            editorResumoDtoArrayList.add(editorResumoDto);
+        }
+
+        if(editores.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(editorResumoDtoArrayList);
     }
 
-    // Endpoint para listar todos os usuários/editores
+    @CrossOrigin
+    @PostMapping
+    @SecurityRequirement(name = "Bearer")
+    @ApiOperation(value = "Cadastrar editor", notes = "Retorna o editor cadastrado")
+    public ResponseEntity<Editor> cadastrar(@RequestBody Editor editor) {
+        Editor editor1 = editorRepository.findByEmail(editor.getEmail());
+        if (editor1 != null) {
+            return ResponseEntity.status(400).build();
+        }
+        this.usuarioService.cadastrar(editor);
+
+        return ResponseEntity.status(200).body(editor);
+    }
+
     @GetMapping
     @ApiOperation(value = "Lista usuarios", notes = "Retorna todos os usuarios listados")
-    public ResponseEntity<List<Usuario>> listar() {
-        // Busca todos os usuários no banco de dados
-        List<Usuario> users = this.userRepository.findAll();
+    public ResponseEntity<List<Editor>> listar() {
+        List<Editor> users = this.editorRepository.findAll();
 
-        // Verifica se a lista de usuários está vazia
         if (users.isEmpty()) {
-            // Retorna uma resposta HTTP 404 (Not Found) se não houver usuários
             return ResponseEntity.status(404).build();
         }
 
-        // Retorna uma resposta HTTP 200 (OK) com a lista de usuários no corpo da resposta
         return ResponseEntity.status(200).body(users);
     }
 
-    // Endpoint para atualizar os dados de um editor existente
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualiza usuario", notes = "Retorna o usuarios atualizado")
-    public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody Editor editorFinal){
-        // Define o ID do editor com base no parâmetro da URL
+    public ResponseEntity<Editor> atualizar(@PathVariable int id, @RequestBody Editor editorFinal){
         editorFinal.setId(id);
 
-        // Verifica se o editor com o ID especificado existe no banco de dados
-        if(this.userRepository.existsById(id)){
-            // Atualiza os dados do editor e o salva no banco de dados
-            Usuario userAtualizado = this.userRepository.save(editorFinal);
-
-            // Retorna uma resposta HTTP 200 (OK) com o editor atualizado no corpo da resposta
-            return ResponseEntity.status(200).body(userAtualizado);
+        if(this.editorRepository.existsById(id)){
+            Editor editor = this.editorRepository.save(editorFinal);
+            return ResponseEntity.status(200).body(editor);
         }
 
-        // Retorna uma resposta HTTP 404 (Not Found) se o editor não existe
         return ResponseEntity.status(404).build();
     }
 
-    // Endpoint para excluir um editor pelo ID
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Deleta usuario", notes = "Retorna o status 200 caso de certo")
-    public ResponseEntity<Usuario> delete(@PathVariable int id){
-        // Verifica se o editor com o ID especificado existe no banco de dados
-        if(this.userRepository.existsById(id)){
-            // Exclui o editor do banco de dados
-            this.userRepository.deleteById(id);
+    public ResponseEntity<Editor> delete(@PathVariable int id){
+        if(this.editorRepository.existsById(id)){
+            this.editorRepository.deleteById(id);
 
-            // Retorna uma resposta HTTP 200 (OK) indicando que a exclusão foi realizada
             return ResponseEntity.status(200).build();
         }
 
-        // Retorna uma resposta HTTP 404 (Not Found) se o editor não existe
         return ResponseEntity.status(404).build();
     }
 
-    // Endpoint personalizado para alerta de prazo, que retorna uma mensagem
     @GetMapping("/alerta")
     @ApiOperation(value = "Avisa o editor da data de entregado do video", notes = "Retorna uma data para o editor")
     public String alerta(Editor editor){
         return editor.alertarPrazo();
     }
 
-    // Método auxiliar para verificar se os dados de um editor são válidos
     public boolean isEditorValido(Editor editor){
         if(editor.getNome().length() < 3 || editor.getNome().isBlank()
                 || editor.getPassword().length() < 3 || editor.getPassword().isBlank()
