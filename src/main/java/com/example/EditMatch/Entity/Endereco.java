@@ -7,14 +7,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Ability {
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
-    private String desc;
-    @ManyToOne
-    private Usuario usuario;
+    private String cep;
+    private String cidade;
+    private String logradouro;
+    private String complemento;
+    private String estado;
+    private String bairro;
+    private String numero;
 
 }

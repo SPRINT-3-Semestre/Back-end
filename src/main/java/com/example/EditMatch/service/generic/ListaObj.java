@@ -122,7 +122,7 @@ public class ListaObj <T> {
             for (int i = 0; i < nroElem; i++) {
                 Usuario pessoa = (Usuario) vetor[i];
                 System.out.printf("%-10s  %-15s  %15s  %-10s  %5b  %-25s %15s\n", pessoa.getNome(), pessoa.getLast_name(),
-                        pessoa.getBirth(), pessoa.getGender(), pessoa.getIs_editor(), pessoa.getEmail(),
+                        pessoa.getBirth(), pessoa.getGender(), pessoa.getIsEditor(), pessoa.getEmail(),
                         pessoa.getCreated_at());
 
             }

@@ -101,7 +101,7 @@ public class UsuarioService {
                 saida.format("%d;%s;%s;%s;%s;%s;%d;%b;%s;%s;%s;%s;%s;%s\n",
                         user.getId(), user.getNome(), user.getLast_name(),
                         user.getRg(), user.getCpf(), user.getBirth(), user.getGender(),
-                        user.getIs_editor(), user.getEmail(), user.getPhoto_profile(),
+                        user.getIsEditor(), user.getEmail(), user.getPhoto_profile(),
                         user.getDesc_profile(), user.getCreated_at(), user.getUpdated_at(), user.getDataEntrega());
             }
         } catch (FormatterClosedException erro) {

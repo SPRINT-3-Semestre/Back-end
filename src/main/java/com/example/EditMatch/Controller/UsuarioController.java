@@ -6,11 +6,14 @@ import com.example.EditMatch.service.usuario.ListaObj;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import com.example.EditMatch.service.usuario.dto.UsuarioCriacaoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin("*")
 @Api(value = "UsuarioController", description = "Controladora de usuarios")
 public class UsuarioController {
 
@@ -37,8 +41,20 @@ public class UsuarioController {
         listaUsuario = new ListaObj<>(100);
     }
 
+    @GetMapping("/listar-editor")
+    public ResponseEntity<List<Usuario>> listarEditores() {
+        List<Usuario> editores = this.userRepository.findByIsEditorTrue();
+
+        if (!editores.isEmpty()) {
+            return new ResponseEntity<>(editores, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @CrossOrigin
     @PostMapping
+    @SecurityRequirement(name = "Bearer")
     @ApiOperation(value = "Cadastra usuarios", notes = "Retorna o usuario cadastrado")
     public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
         // Verifica se já existe um usuário com o mesmo email

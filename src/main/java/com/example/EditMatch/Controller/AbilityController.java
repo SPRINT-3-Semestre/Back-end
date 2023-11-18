@@ -1,10 +1,12 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Ability;
+import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.AbilityRepository;
+import com.example.EditMatch.Repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +16,33 @@ import java.util.Optional;
 
 @RestController
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/abilitys")
 @Api(value = "AbilityController", description = "Controladora de ability")
 public class AbilityController {
-    @Autowired
-    private AbilityRepository abilityRepository;
 
-    private Ability ability;
+    private final AbilityRepository abilityRepository;
+    private final UserRepository userRepository;
 
-    @PostMapping
-    public ResponseEntity<Ability> cadastrar(@RequestBody Ability ability){
-        return ResponseEntity.of(Optional.of(abilityRepository.save(ability)));
+    @PostMapping("/{id}")
+    public ResponseEntity<List<Ability>> cadastrarHabilidades(@RequestBody List<Ability> habilidades, @PathVariable Integer id) {
+        Optional<Usuario> usuarioOptional = userRepository.findById(id);
+
+        if (usuarioOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Usuario usuario = usuarioOptional.get();
+
+        for (Ability habilidade : habilidades) {
+            habilidade.setUsuario(usuario);
+        }
+
+        List<Ability> savedHabilidades = abilityRepository.saveAll(habilidades);
+
+        return ResponseEntity.ok(savedHabilidades);
     }
+
     @PutMapping("/{id}")
     @ApiOperation(value = "Lista ability", notes = "Retorna o ability atualizado")
     public ResponseEntity<Ability> atualizar(@PathVariable int id,
