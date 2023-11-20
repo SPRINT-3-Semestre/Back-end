@@ -17,11 +17,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -121,5 +125,68 @@ public class UsuarioService {
         }
 
         return csvFile;
+    }
+
+    public static void gravaRegistroTxt(String registro, String nomeArq) {
+        BufferedWriter saida = null;
+
+        // Bloco try-catch para abrir o arquivo
+        try {
+            saida = new BufferedWriter(new FileWriter(nomeArq, false));
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao abrir o arquivo");
+        }
+
+        // Bloco try-catch para gravar o registro e fechar o arquivo
+        try {
+            saida.append(registro + "\n");
+            saida.close();
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao gravar o arquivo");
+            erro.printStackTrace();
+        }
+    }
+
+    public File gravaArquivoTxt(List<Usuario> lista, String nomeArq) {
+        int contaRegDadosGravados = 0;
+
+        // Monta o registro de header
+        String header = "USUARIO";
+        header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        header += "00";
+
+        // Grava o header
+        gravaRegistroTxt(header, nomeArq);
+
+        // Monta e grava os registros de dados (registros de corpo)
+        for (Usuario usuario : lista) {
+            String corpo = "02";
+            corpo += String.format("%02d", usuario.getId());
+            corpo += String.format("%-50.50s", usuario.getNome());
+            corpo += String.format("%-50.50s", usuario.getLast_name());
+            corpo += String.format("%-12.12s", usuario.getRg());
+            corpo += String.format("%-14.14s", usuario.getCpf());
+            corpo += String.format("%-10.10s", usuario.getBirth());
+            corpo += String.format("%01d", usuario.getGender());
+            corpo += String.format("%-5.5s", String.valueOf(usuario.getIsEditor()));
+            corpo += String.format("%-50.50s", usuario.getEmail());
+            corpo += String.format("%-255.255s", usuario.getDesc_profile());
+
+            // Grava o registro de corpo
+            gravaRegistroTxt(corpo, nomeArq);
+            // Contabiliza a quantidade de reg de dados gravados
+            contaRegDadosGravados++;
+        }
+
+        // Monta e grava o registro de trailer
+        String trailer = "01";
+        trailer += String.format("%010d", contaRegDadosGravados);
+
+        gravaRegistroTxt(trailer, nomeArq);
+
+        // Retorna o objeto File
+        return new File(nomeArq);
     }
 }

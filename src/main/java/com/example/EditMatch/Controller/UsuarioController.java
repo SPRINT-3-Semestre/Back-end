@@ -112,4 +112,38 @@ public class UsuarioController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
+    @CrossOrigin
+    @GetMapping("/download/txt")
+    @ApiOperation(value = "Baixa TXT", notes = "baixar TXT")
+    public ResponseEntity<InputStreamResource> downloadTxt(){
+        try {
+            List<Usuario> usuarios = this.userRepository.findAll();
+            // Chama o método para gerar o arquivo TXT com base no nome fornecido
+            File txtFile = usuarioService.gravaArquivoTxt(usuarios, "Usuarios");
+
+            // Converte o arquivo em um fluxo de entrada
+            FileInputStream fileInputStream = new FileInputStream(txtFile);
+
+            // Configura os cabeçalhos da resposta
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Usuarios.txt");
+
+            // Cria um recurso de fluxo de entrada a partir do arquivo
+            InputStreamResource resource = new InputStreamResource(fileInputStream);
+
+            // Retorna o ResponseEntity com os cabeçalhos e o recurso de fluxo de entrada
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(MediaType.parseMediaType("application/txt"))
+                    .body(resource);
+
+        } catch (IOException e) {
+            // Lida com exceções de IO, por exemplo, arquivo não encontrado
+            e.printStackTrace();
+            // Retorna uma resposta de erro, por exemplo, status 500
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 }
