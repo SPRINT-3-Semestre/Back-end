@@ -1,6 +1,7 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Usuario;
+import com.example.EditMatch.Repository.ImagemRepository;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.service.usuario.ListaObj;
 import com.example.EditMatch.service.usuario.UsuarioService;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +40,7 @@ public class UsuarioController {
         listaUsuario = new ListaObj<>(100);
     }
 
+
     @GetMapping("/listar-editor")
     public ResponseEntity<List<Usuario>> listarEditores() {
         List<Usuario> editores = this.userRepository.findByIsEditorTrue();
@@ -57,6 +60,10 @@ public class UsuarioController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/{idImage}")
+    public Usuario getImagem(@PathVariable int idImage) {
+        return userRepository.findById(idImage).orElse(null);
     }
 
     @CrossOrigin

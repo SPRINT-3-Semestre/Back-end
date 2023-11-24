@@ -70,7 +70,11 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/abilitys/{id}"),
             new AntPathRequestMatcher("/abilitys/{desc}"),
             new AntPathRequestMatcher("/h2-console/**"),
-            new AntPathRequestMatcher("/error/**")
+            new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/imagens/upload/{id}"),
+            new AntPathRequestMatcher("/usuarios/{idImage}"),
+            new AntPathRequestMatcher("/imagens/update/{id}"),
+            new AntPathRequestMatcher("/imagens/delete/{id}")
     };
 
     @Bean

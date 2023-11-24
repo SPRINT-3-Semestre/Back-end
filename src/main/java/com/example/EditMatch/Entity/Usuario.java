@@ -3,6 +3,7 @@ package com.example.EditMatch.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -11,13 +12,15 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "O nome não pode estar em branco")
+    //@NotBlank(message = "O nome não pode estar em branco")
     private String nome;
 
     private String last_name;
@@ -51,7 +54,7 @@ public class Usuario {
 
     private LocalDateTime updated_at;
 
-    @Future(message = "A data de entrega deve estar no futuro")
+    //@Future(message = "A data de entrega deve estar no futuro")
     private LocalDate dataEntrega;
 
     private Double valorHora;
@@ -60,6 +63,10 @@ public class Usuario {
 
     @OneToOne
     private Endereco endereco;
+
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Imagem imagem;
 
     public Usuario() {
     }
