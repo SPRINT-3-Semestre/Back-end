@@ -1,15 +1,22 @@
 package com.example.EditMatch.Entity;
 
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
+@Getter
+@Setter
 public class Editor extends Usuario {
     private List<String> portifolio = new ArrayList<>();
-    private String link;
+
+    private List<String> habilidades = new ArrayList<>();
+
+    private List<String> link = new ArrayList<>();
 
 
     public String alertarPrazo() {
@@ -27,11 +34,4 @@ public class Editor extends Usuario {
         }
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 }
