@@ -6,7 +6,6 @@ import com.example.EditMatch.service.usuario.ListaObj;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
-import com.example.EditMatch.service.usuario.dto.UsuarioCriacaoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -31,9 +30,7 @@ public class UsuarioController {
 
     @Autowired
     private UserRepository userRepository;
-
     private final UsuarioService usuarioService;
-
     private ListaObj<Usuario> listaUsuario;
 
     public UsuarioController(UsuarioService usuarioService) {
@@ -47,6 +44,16 @@ public class UsuarioController {
 
         if (!editores.isEmpty()) {
             return new ResponseEntity<>(editores, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/listar-clientes")
+    public ResponseEntity<List<Usuario>> listarClientes() {
+        List<Usuario> clientes = this.userRepository.findByIsEditorFalse();
+
+        if (!clientes.isEmpty()) {
+            return new ResponseEntity<>(clientes, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

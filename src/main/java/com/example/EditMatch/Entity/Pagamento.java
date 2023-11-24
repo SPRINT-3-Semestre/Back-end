@@ -4,18 +4,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
-public class Ability {
-
+public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nome;
-    private String desc;
-
-    @ManyToOne
-    private Usuario usuario;
-
+    private Integer expiracaoMes;
+    private Integer status;
+    private LocalDateTime crateAt;
+    @OneToOne
+    private Servico servico;
+    
 }

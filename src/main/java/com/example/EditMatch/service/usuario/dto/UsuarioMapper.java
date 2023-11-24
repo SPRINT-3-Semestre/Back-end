@@ -15,6 +15,15 @@ public class UsuarioMapper {
         return usuario;
     }
 
+    public static Usuario of(UsuarioServiceDto usuarioServiceDto) {
+        Usuario usuario = new Usuario();
+
+        usuario.setEmail(usuarioServiceDto.getEmail());
+        usuario.setNome(usuarioServiceDto.getNome());
+
+        return usuario;
+    }
+
     public static UsuarioTokenDto of(Usuario usuario, String token) {
 
         UsuarioTokenDto UsuarioTokenDto = new UsuarioTokenDto();

@@ -13,5 +13,9 @@ public interface UserRepository extends JpaRepository<Usuario, Integer> {
     Usuario findBynome(String nome);
 
     List<Usuario> findByIsEditorTrue();
+    List<Usuario> findByIsEditorFalse();
+
+    Usuario findByIdAndIsEditorTrue(Integer idEditor);
+    Usuario findByIdAndIsEditorFalse(Integer idEditor);
 
 }
