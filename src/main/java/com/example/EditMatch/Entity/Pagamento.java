@@ -18,5 +18,8 @@ public class Pagamento {
     private LocalDateTime crateAt;
     @OneToOne
     private Servico servico;
-    
+    @OneToOne
+    private Usuario usuarioCliente;
+    @OneToOne
+    private Usuario usuarioEditor;
 }

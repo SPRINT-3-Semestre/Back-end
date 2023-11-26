@@ -4,14 +4,17 @@ import com.example.EditMatch.Entity.Servico;
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.ServiceRepository;
 import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.service.usuario.dto.CustomServiceEditor;
+import com.example.EditMatch.service.usuario.dto.CustomServiceInfo;
+import com.example.EditMatch.service.generic.PilhaObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 @RestController
 @RequestMapping("/services")
@@ -53,14 +56,60 @@ public class ServiceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/listar-services/{id}")
-    public ResponseEntity<Stack<Servico>> listarServices(@PathVariable Integer id) {
+    @GetMapping("/enpilhar-services/{id}")
+    public ResponseEntity<List<CustomServiceInfo>> listarServices(@PathVariable Integer id) {
         List<Servico> servicesList = this.serviceRepository.findByUsuarioClienteId(id);
-        Stack<Servico> servicesStack = new Stack<>();
+        PilhaObj<CustomServiceInfo> servicesPilha = new PilhaObj<>(servicesList.size());
+        List<CustomServiceInfo> customServiceList = new ArrayList<>();
+        Double valorTotal = 0.0;
         if (!servicesList.isEmpty()) {
-            // Adiciona os serviços à pilha
-            servicesStack.addAll(servicesList);
-            return new ResponseEntity<>(servicesStack, HttpStatus.OK);
+            // Armazena na pilha
+            for (Servico servico : servicesList) {
+                Usuario cliente = servico.getUsuarioCliente();
+                Usuario editor = servico.getUsuarioEditor();
+                CustomServiceInfo customInfo = new CustomServiceInfo(servico.getId(), cliente.getId(), cliente.getNome(), editor.getId(), editor.getNome(), servico.getTitle(), servico.getDesc(), servico.getValor());
+                servicesPilha.push(customInfo);
+                valorTotal += servico.getValor();
+            }
+
+            // Transfere para a lista
+            while (!servicesPilha.isEmpty()) {
+                customServiceList.add(servicesPilha.pop());
+            }
+            // Atualiza o valor total para cada objeto na lista
+            for (CustomServiceInfo customServiceInfo : customServiceList) {
+                customServiceInfo.setValorTotal(valorTotal);
+            }
+
+
+            return ResponseEntity.ok(customServiceList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listar-servicos-editor/{idEditor}")
+    public ResponseEntity<List<CustomServiceEditor>> listarServicosParaEditor(@PathVariable Integer idEditor) {
+        List<Servico> servicesList = this.serviceRepository.findByUsuarioEditorId(idEditor);
+        List<CustomServiceEditor> customServiceList = new ArrayList<>();
+
+        if (!servicesList.isEmpty()) {
+            // Adiciona os serviços à lista de CustomServiceInfo
+            for (Servico servico : servicesList) {
+                Usuario cliente = servico.getUsuarioCliente();
+                CustomServiceEditor customInfo = new CustomServiceEditor(
+                        servico.getId(),
+                        cliente.getId(),
+                        cliente.getNome(),
+                        servico.getTitle(),
+                        servico.getDesc(),
+                        servico.getValor()
+                );
+
+                customServiceList.add(customInfo);
+            }
+
+            return new ResponseEntity<>(customServiceList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
