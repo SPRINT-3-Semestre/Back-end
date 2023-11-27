@@ -70,6 +70,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/abilitys/{id}"),
             new AntPathRequestMatcher("/abilitys/{desc}"),
             new AntPathRequestMatcher("/h2-console/**"),
+            new AntPathRequestMatcher("/websocket/**"),
             new AntPathRequestMatcher("/error/**")
     };
 
