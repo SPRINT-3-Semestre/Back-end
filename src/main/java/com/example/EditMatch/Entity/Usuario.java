@@ -56,8 +56,6 @@ public class Usuario {
 
     private Double valorHora;
 
-    private String chavePix;
-
     @OneToOne
     private Endereco endereco;
 

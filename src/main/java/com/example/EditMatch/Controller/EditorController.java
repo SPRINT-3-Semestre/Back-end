@@ -1,16 +1,13 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Editor;
-import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.EditorRepository;
-import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

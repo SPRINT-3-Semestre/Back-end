@@ -22,6 +22,24 @@ public class ServiceController {
 
     @Autowired
     private UserRepository usuarioRepository;
+
+    @GetMapping("/ganhos-por-mes")
+    public ResponseEntity<Double> calcularGanhosPorMes(
+            @RequestParam(name = "idUsuario", required = true) Integer idUsuario,
+            @RequestParam(name = "ano", required = true) Integer ano,
+            @RequestParam(name = "mes", required = true) Integer mes) {
+
+        // Obtém todos os serviços associados ao usuário no mês e ano fornecidos
+        List<Servico> servicesList = serviceRepository.findByUsuarioClienteIdAndCreatedAtYearAndCreatedAtMonth(idUsuario, ano, mes);
+
+        // Calcula os ganhos somando os valores dos serviços
+        Double ganhos = servicesList.stream()
+                .mapToDouble(Servico::getValor)
+                .sum();
+
+        return ResponseEntity.ok(ganhos);
+    }
+
     @PostMapping
     public ResponseEntity<Servico> createService(@RequestBody Servico servico) {
         // Verifica se o usuário é um editor
