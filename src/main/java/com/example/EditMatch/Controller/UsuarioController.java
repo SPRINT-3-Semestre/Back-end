@@ -2,10 +2,10 @@ package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.UserRepository;
-import com.example.EditMatch.service.usuario.ListaObj;
-import com.example.EditMatch.service.usuario.UsuarioService;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import com.example.EditMatch.Service.usuario.ListaObj;
+import com.example.EditMatch.Service.usuario.UsuarioService;
+import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioLoginDto;
+import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioTokenDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

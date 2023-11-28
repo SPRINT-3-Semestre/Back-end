@@ -1,15 +1,14 @@
-package com.example.EditMatch.service.usuario;
+package com.example.EditMatch.Service.usuario;
 
 import com.example.EditMatch.Entity.Editor;
-import com.example.EditMatch.Entity.Endereco;
+import com.example.EditMatch.Entity.Address;
 import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.EnderecoRepository;
-import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.Repository.AddressRepository;
 import com.example.EditMatch.Repository.UsuarioRepositoryJWT;
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
-import com.example.EditMatch.service.usuario.dto.UsuarioMapper;
+import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioLoginDto;
+import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioTokenDto;
+import com.example.EditMatch.Service.dto.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,10 +43,10 @@ public class UsuarioService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
+    private AddressRepository addressRepository;
     public void cadastrar(Usuario usuario) {
-        Endereco endereco = usuario.getEndereco();
-        enderecoRepository.save(endereco);
+        Address address = usuario.getAddress();
+        addressRepository.save(address);
         final Usuario novoUsuario = usuario;
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getPassword());
