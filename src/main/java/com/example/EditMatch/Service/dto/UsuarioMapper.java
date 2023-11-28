@@ -1,7 +1,7 @@
-package com.example.EditMatch.service.usuario.dto;
+package com.example.EditMatch.Service.dto;
 
 import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
+import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioTokenDto;
 
 public class UsuarioMapper {
 

@@ -1,4 +1,4 @@
-package com.example.EditMatch.service.usuario.dto;
+package com.example.EditMatch.Service.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
