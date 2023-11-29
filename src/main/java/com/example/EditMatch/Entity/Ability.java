@@ -14,7 +14,6 @@ public class Ability {
     private Integer id;
     private String nome;
     private String desc;
-
     @ManyToOne
     private Usuario usuario;
 

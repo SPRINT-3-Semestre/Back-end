@@ -1,7 +1,7 @@
 package com.example.EditMatch.configuration.security;
 
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
-import com.example.EditMatch.service.usuario.autenticacao.AutenticacaoService;
+import com.example.EditMatch.Service.usuario.autenticacao.AutenticacaoService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

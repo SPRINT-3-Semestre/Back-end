@@ -1,4 +1,4 @@
-package com.example.EditMatch.service.usuario;
+package com.example.EditMatch.Service.usuario;
 
 import com.example.EditMatch.Entity.Usuario;
 

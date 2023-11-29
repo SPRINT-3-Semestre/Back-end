@@ -1,9 +1,7 @@
 package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.Ability;
-import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.AbilityRepository;
-import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.Service.AbilityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Controller
@@ -21,60 +18,33 @@ import java.util.Optional;
 @Api(value = "AbilityController", description = "Controladora de ability")
 public class AbilityController {
 
-    private final AbilityRepository abilityRepository;
-    private final UserRepository userRepository;
+    private final AbilityService abilityService;
 
     @PostMapping("/{id}")
     public ResponseEntity<List<Ability>> cadastrarHabilidades(@RequestBody List<Ability> habilidades, @PathVariable Integer id) {
-        Optional<Usuario> usuarioOptional = userRepository.findById(id);
-
-        if (usuarioOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Usuario usuario = usuarioOptional.get();
-
-        for (Ability habilidade : habilidades) {
-            habilidade.setUsuario(usuario);
-        }
-
-        List<Ability> savedHabilidades = abilityRepository.saveAll(habilidades);
-
-        return ResponseEntity.ok(savedHabilidades);
+        List<Ability> abilities = abilityService.saveAbilitys(habilidades, id);
+        return ResponseEntity.ok(abilities);
     }
 
-    @PutMapping("/{id}")
-    @ApiOperation(value = "Lista ability", notes = "Retorna o ability atualizado")
-    public ResponseEntity<Ability> atualizar(@PathVariable int id,
-                                            @RequestBody Ability abilityAtualizado){
-        Optional<Ability> ability = abilityRepository.findById(id);
-        if(ability.isPresent()){
-            if (abilityAtualizado.getDesc() != null){
-                ability.get().setDesc(abilityAtualizado.getDesc());
-            }
-            Ability ability1 = abilityRepository.save(ability.get());
-            return ResponseEntity.ok().body(ability1);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/atualizar/{id}")
+    @ApiOperation(value = "Atualiza habilidades", notes = "Retorna as habilidades atualizadas")
+    public ResponseEntity<List<Ability>> atualizarHabilidades(@PathVariable int id, @RequestBody List<Ability> habilidadesAtualizadas) {
+        List<Ability> abilitiesUpdatedAt = abilityService.updateAbilitys(habilidadesAtualizadas, id);
+        return ResponseEntity.ok().body(abilitiesUpdatedAt);
     }
+
     @DeleteMapping()
     @ApiOperation(value = "Deleta ability", notes = "asdasd")
     public ResponseEntity<Void> deletar(@RequestParam int id){
-        Optional<Ability> abilityOptional = abilityRepository.findById(id);
-        if (abilityOptional.isPresent()){
-            abilityRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        abilityService.deleteAbility(id);
+        return ResponseEntity.noContent().build();
     }
-    @GetMapping()
-    @ApiOperation(value = "Busca ability", notes = "Retorna o ability buscado")
-    public ResponseEntity<List<Ability>> buscar(@RequestParam String desc){
-        List<Ability> ability1 = abilityRepository.findByDesc(desc);
-        if(ability1.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok().body(ability1);
+
+    @GetMapping("/buscar/{id}")
+    @ApiOperation(value = "Busca habilidades por ID de usuário", notes = "Retorna a lista de habilidades de um usuário")
+    public ResponseEntity<List<Ability>> buscarHabilidadesPorIdUsuario(@PathVariable int id) {
+        List<Ability> listUser = abilityService.findById(id);
+        return ResponseEntity.ok().body(listUser);
     }
+
 }

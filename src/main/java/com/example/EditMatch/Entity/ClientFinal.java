@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 @Entity
-public class ClienteFinal extends Usuario {
+public class ClientFinal extends Usuario {
 
     public String alertarPrazo() {
         LocalDate dataAtual = LocalDate.now();
