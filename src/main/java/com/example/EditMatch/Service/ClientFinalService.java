@@ -6,7 +6,6 @@ import com.example.EditMatch.Repository.ClientFinalRepository;
 import com.example.EditMatch.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,11 +26,20 @@ public class ClientFinalService {
         return users;
     }
 
+    public ClientFinal register(ClientFinal clientFinal) {
+        boolean isEmail = clientFinalRepository.existsByEmail(clientFinal.getEmail());
+        if (isEmail) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
+        clientFinal.setIsEditor(!clientFinal.getIsEditor());
+
+        return userRepository.save(clientFinal);
+    }
+
     public Usuario update(Integer id, ClientFinal clientFinal) {
         clientFinal.setId(id);
         if(this.userRepository.existsById(id)){
-            Usuario userAtualizado = this.userRepository.save(clientFinal);
-            return userAtualizado;
+            return this.userRepository.save(clientFinal);
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
