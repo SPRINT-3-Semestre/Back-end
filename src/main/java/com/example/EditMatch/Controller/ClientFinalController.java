@@ -6,6 +6,7 @@ import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Service.ClientFinalService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import java.util.List;
 @Api(value = "ClienteFinalController", description = "Controladora de cliente final")
 public class ClientFinalController {
 
-    private final UserRepository userRepository;
     private final ClientFinalService clientFinalService;
 
     @CrossOrigin
@@ -28,6 +28,15 @@ public class ClientFinalController {
     public ResponseEntity<List<Usuario>> list() {
         List<Usuario> users = clientFinalService.list();
         return ResponseEntity.status(200).body(users);
+    }
+
+    @CrossOrigin
+    @PostMapping
+    @SecurityRequirement(name = "Bearer")
+    @ApiOperation(value = "Cadastrar cliente final", notes = "Retorna o cliente cadastrado")
+    public ResponseEntity<ClientFinal> register(@RequestBody ClientFinal clientFinal) {
+        clientFinalService.register(clientFinal);
+        return ResponseEntity.created(null).body(clientFinal);
     }
 
     @CrossOrigin
