@@ -2,13 +2,11 @@ package com.example.EditMatch.Controller;
 
 import com.example.EditMatch.Entity.ClientFinal;
 import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Service.ClientFinalService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

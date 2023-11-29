@@ -31,8 +31,7 @@ public class ClientFinalService {
         if (isEmail) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-        clientFinal.setIsEditor(!clientFinal.getIsEditor());
-
+        clientFinal.setIsEditor(false);
         return userRepository.save(clientFinal);
     }
 

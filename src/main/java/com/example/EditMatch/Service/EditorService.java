@@ -2,6 +2,7 @@ package com.example.EditMatch.Service;
 
 import com.example.EditMatch.Entity.Editor;
 import com.example.EditMatch.Repository.EditorRepository;
+import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Service.usuario.UsuarioService;
 import com.example.EditMatch.Service.usuario.autenticacao.dto.EditorResumoDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class EditorService {
 
     private final EditorRepository editorRepository;
     private final UsuarioService usuarioService;
+    private final UserRepository userRepository;
 
     public List<EditorResumoDto> listSummary() {
         List<Editor> editores = editorRepository.findAll();
@@ -48,7 +50,8 @@ public class EditorService {
         if (editor1 != null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return editor;
+        editor.setIsEditor(true);
+        return userRepository.save(editor);
     }
 
     public List<Editor> list() {

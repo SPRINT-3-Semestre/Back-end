@@ -1,9 +1,7 @@
 package com.example.EditMatch.Service.usuario;
 
 import com.example.EditMatch.Entity.Editor;
-import com.example.EditMatch.Entity.Address;
 import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.AddressRepository;
 import com.example.EditMatch.Repository.UsuarioRepositoryJWT;
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
 import com.example.EditMatch.Service.usuario.autenticacao.dto.UsuarioLoginDto;
@@ -42,11 +40,7 @@ public class UsuarioService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AddressRepository addressRepository;
     public void cadastrar(Usuario usuario) {
-        Address address = usuario.getAddress();
-        addressRepository.save(address);
         final Usuario novoUsuario = usuario;
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getPassword());
