@@ -4,22 +4,29 @@ import com.example.EditMatch.Entity.Servico;
 import com.example.EditMatch.Entity.Usuario;
 import com.example.EditMatch.Repository.ServicoRepository;
 import com.example.EditMatch.Repository.UserRepository;
+import com.example.EditMatch.excepition.EntidadeNaoEncontradaException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.example.EditMatch.service.usuario.dto.CustomServiceInfo;
+import com.example.EditMatch.service.usuario.dto.CustomServiceEditor;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
-
+import com.example.EditMatch.Service.generic.FilaObj;
+import com.example.EditMatch.Service.generic.PilhaObj;
 @Service
 @RequiredArgsConstructor
 public class ServicoService {
 
     private final ServicoRepository servicoRepository;
     private final UserRepository usuarioRepository;
-    
+
     public Servico create(Servico service) {
         if (service.getUsuarioEditor() != null && service.getUsuarioEditor().getId() != null) {
             Usuario editor = usuarioRepository.findByIdAndIsEditorTrue(service.getUsuarioEditor().getId());
@@ -82,6 +89,123 @@ public class ServicoService {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public Servico createPedido(Integer idCliente, Servico servico) {
+        Usuario cliente = usuarioRepository.findByIdAndIsEditorFalse(idCliente);
+        if (cliente == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        servico.setUsuarioCliente(cliente);
+
+        return servicoRepository.save(servico);
+
+    }
+
+    public CustomServiceInfo aceitarServico(Integer idServico, Integer idEditor, Double valor) {
+        Servico servico = servicoRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            throw new EntidadeNaoEncontradaException("O id do serviço não foi encontrado");
+        }
+        Usuario editor = usuarioRepository.findByIdAndIsEditorTrue(idEditor);
+        if (editor == null) {
+            throw new EntidadeNaoEncontradaException("O id do editor não foi encontrado");
+        }
+        servico.setUsuarioEditor(editor);
+        servico.setValor(valor);
+        Servico updatedServico = servicoRepository.save(servico);
+        CustomServiceInfo customServiceInfo = new CustomServiceInfo(updatedServico.getId(), updatedServico.getUsuarioCliente().getId(), updatedServico.getUsuarioCliente().getNome(), updatedServico.getUsuarioEditor().getId(), updatedServico.getUsuarioEditor().getNome(), updatedServico.getTitle(), updatedServico.getDesc(), updatedServico.getValor());
+        return customServiceInfo;
+    }
+
+    public Servico cancelarProposta(Integer idServico) {
+        Servico servico = servicoRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            throw new EntidadeNaoEncontradaException("O id do serviço não foi encontrado");
+        }
+        servico.setUsuarioEditor(null);
+        Servico updatedServico;
+        updatedServico = servicoRepository.save(servico);
+        return updatedServico;
+    }
+
+    public Servico finalizarServico(Integer idServico) {
+        Servico servico = servicoRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            throw new EntidadeNaoEncontradaException("O id do serviço não foi encontrado");
+        }
+        servico.setFinishedAt(LocalDate.now());
+        Servico updatedServico = servicoRepository.save(servico);
+        return updatedServico;
+    }
+
+    public List<Servico> listarServicosNaoContratados() {
+        List<Servico> servicos = this.servicoRepository.findByUsuarioEditorIsNull();
+        if (servicos.isEmpty()) {
+            throw new EntidadeNaoEncontradaException("Não há serviços não contratados");
+        }
+        return servicos;
+    }
+
+    public List<CustomServiceInfo> empilharServices(Integer id) {
+        List<Servico> servicesList = this.servicoRepository.findByUsuarioClienteId(id);
+        PilhaObj<CustomServiceInfo> servicesPilha = new PilhaObj<>(servicesList.size());
+        List<CustomServiceInfo> customServiceList = new ArrayList<>();
+        Double valorTotal = 0.0;
+        if (!servicesList.isEmpty()) {
+            // Armazena na pilha
+            for (Servico servico : servicesList) {
+                if (servico.getUsuarioEditor() == null) continue; // Ignora serviços não contratados (sem editor
+                Usuario cliente = servico.getUsuarioCliente();
+                Usuario editor = servico.getUsuarioEditor();
+                CustomServiceInfo customInfo = new CustomServiceInfo(servico.getId(), cliente.getId(), cliente.getNome(), editor.getId(), editor.getNome(), servico.getTitle(), servico.getDesc(), servico.getValor());
+                servicesPilha.push(customInfo);
+                valorTotal += servico.getValor();
+            }
+
+            // Transfere para a lista
+            while (!servicesPilha.isEmpty()) {
+                customServiceList.add(servicesPilha.pop());
+            }
+            // Atualiza o valor total para cada objeto na lista
+            for (CustomServiceInfo customServiceInfo : customServiceList) {
+                customServiceInfo.setValorTotal(valorTotal);
+            }
+            return customServiceList;
+        } else {
+            throw new EntidadeNaoEncontradaException("Não há serviços para este usuário");
+        }
+    }
+
+    public List<CustomServiceEditor> listarServicosParaEditor(Integer idEditor) {
+        List<Servico> servicesList = this.servicoRepository.findByUsuarioEditorId(idEditor);
+        FilaObj<CustomServiceEditor> servicesFila = new FilaObj<>(servicesList.size());
+        List<CustomServiceEditor> customServiceList = new ArrayList<>();
+
+        if (!servicesList.isEmpty()) {
+            // Adiciona os serviços à fila
+            for (Servico servico : servicesList) {
+                Usuario cliente = servico.getUsuarioCliente();
+                CustomServiceEditor customInfo = new CustomServiceEditor(
+                        servico.getId(),
+                        cliente.getId(),
+                        cliente.getNome(),
+                        servico.getTitle(),
+                        servico.getDesc(),
+                        servico.getValor()
+                );
+
+                servicesFila.insert(customInfo);
+            }
+
+            // Converte a fila para a lista
+            while (!servicesFila.isEmpty()) {
+                customServiceList.add(servicesFila.poll());
+            }
+            return customServiceList;
+        } else {
+            throw new EntidadeNaoEncontradaException("Não há serviços para este editor");
         }
     }
 

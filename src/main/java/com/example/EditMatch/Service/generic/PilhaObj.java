@@ -1,4 +1,4 @@
-package com.example.EditMatch.service.generic;//Classe pronta, NÃO é necessário alterar nada
+package com.example.EditMatch.Service.generic;//Classe pronta, NÃO é necessário alterar nada
 
 import java.util.Arrays;
 

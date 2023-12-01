@@ -1,4 +1,4 @@
-package com.example.EditMatch.service.generic;
+package com.example.EditMatch.Service.generic;
 
 
 import com.example.EditMatch.service.generic.dto.MessageDTO;
