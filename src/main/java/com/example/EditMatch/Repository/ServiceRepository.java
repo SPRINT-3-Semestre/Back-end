@@ -14,4 +14,5 @@ public interface ServiceRepository extends JpaRepository<Servico, Integer> {
     @Query("SELECT s FROM Servico s WHERE s.usuarioEditor.id = :clienteId AND s.usuarioEditor.isEditor = true")
     List<Servico> findByUsuarioEditorId(@Param("clienteId") Integer clienteId);
 
+    List<Servico> findByUsuarioEditorIsNull();
 }

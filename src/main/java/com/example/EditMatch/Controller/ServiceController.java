@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,70 @@ public class ServiceController {
         Servico createdServico = serviceRepository.save(servico);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdServico);
     }
+
+    // Endpoint para criar pedoido de um serviço
+    @PostMapping("/pedido/{idCliente}")
+    public ResponseEntity<Servico> createServicoPedido(@PathVariable Integer idCliente, @RequestBody Servico servico){
+        Usuario cliente = usuarioRepository.findByIdAndIsEditorFalse(idCliente);
+        if (cliente == null) {
+            return ResponseEntity.badRequest().build(); // Cliente não encontrado
+        }
+        servico.setUsuarioCliente(cliente);
+        Servico createdServico = serviceRepository.save(servico);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdServico);
+    }
+
+    // Endpoint para Editor aceitar um serviço
+    @PutMapping("/fazer-proposta/{idServico}/{idEditor}")
+    public ResponseEntity<CustomServiceInfo> aceitarServico(@PathVariable Integer idServico, @PathVariable Integer idEditor, @RequestParam Double valor) {
+        Servico servico = serviceRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            return ResponseEntity.badRequest().body(null); // Serviço não encontrado
+        }
+        Usuario editor = usuarioRepository.findByIdAndIsEditorTrue(idEditor);
+        if (editor == null) {
+            return ResponseEntity.badRequest().body(null); // Editor não encontrado
+        }
+        servico.setUsuarioEditor(editor);
+        servico.setValor(valor);
+        Servico updatedServico = serviceRepository.save(servico);
+        CustomServiceInfo customServiceInfo = new CustomServiceInfo(updatedServico.getId(), updatedServico.getUsuarioCliente().getId(), updatedServico.getUsuarioCliente().getNome(), updatedServico.getUsuarioEditor().getId(), updatedServico.getUsuarioEditor().getNome(), updatedServico.getTitle(), updatedServico.getDesc(), updatedServico.getValor());
+        return ResponseEntity.ok(customServiceInfo);
+    }
+
+    @PutMapping("/cancelar-proposta/{idServico}")
+    public ResponseEntity<Servico> cancelarProposta(@PathVariable Integer idServico) {
+        Servico servico = serviceRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            return ResponseEntity.badRequest().body(null); // Serviço não encontrado
+        }
+        servico.setUsuarioEditor(null);
+        Servico updatedServico = serviceRepository.save(servico);
+        return ResponseEntity.ok(updatedServico);
+    }
+
+    @PutMapping("/finalizar-servico/{idServico}")
+    public ResponseEntity<Servico> finalizarServico(@PathVariable Integer idServico) {
+        Servico servico = serviceRepository.findById(idServico).orElse(null);
+        if (servico == null) {
+            return ResponseEntity.badRequest().body(null); // Serviço não encontrado
+        }
+        servico.setFinishedAt(LocalDate.now());
+        Servico updatedServico = serviceRepository.save(servico);
+        return ResponseEntity.ok(updatedServico);
+    }
+
+    // Endpoint para listar serviços não contratados
+    @GetMapping("/listar-nao-contratados")
+    public ResponseEntity<List<Servico>> listarServicosNaoContratados() {
+        List<Servico> servicos = this.serviceRepository.findByUsuarioEditorIsNull();
+        if (!servicos.isEmpty()) {
+            return new ResponseEntity<>(servicos, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // Endpoint para buscar um serviço pelo ID
     @GetMapping("/{id}")
     public ResponseEntity<Servico> getServiceById(@PathVariable Integer id) {
@@ -56,7 +121,7 @@ public class ServiceController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/enpilhar-services/{id}")
+    @GetMapping("/empilhar-services/{id}")
     public ResponseEntity<List<CustomServiceInfo>> listarServices(@PathVariable Integer id) {
         List<Servico> servicesList = this.serviceRepository.findByUsuarioClienteId(id);
         PilhaObj<CustomServiceInfo> servicesPilha = new PilhaObj<>(servicesList.size());
@@ -65,6 +130,7 @@ public class ServiceController {
         if (!servicesList.isEmpty()) {
             // Armazena na pilha
             for (Servico servico : servicesList) {
+                if(servico.getUsuarioEditor() == null) continue; // Ignora serviços não contratados (sem editor
                 Usuario cliente = servico.getUsuarioCliente();
                 Usuario editor = servico.getUsuarioEditor();
                 CustomServiceInfo customInfo = new CustomServiceInfo(servico.getId(), cliente.getId(), cliente.getNome(), editor.getId(), editor.getNome(), servico.getTitle(), servico.getDesc(), servico.getValor());
