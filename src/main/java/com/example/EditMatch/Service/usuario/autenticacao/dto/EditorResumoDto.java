@@ -1,4 +1,4 @@
-package com.example.EditMatch.service.usuario.autenticacao.dto;
+package com.example.EditMatch.Service.usuario.autenticacao.dto;
 
 import lombok.Data;
 

@@ -59,7 +59,7 @@ public class Usuario {
     private String chavePix;
 
     @OneToOne
-    private Endereco endereco;
+    private Address address;
 
     public Usuario() {
     }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ServiceRepository extends JpaRepository<Servico, Integer> {
+public interface ServicoRepository extends JpaRepository<Servico, Integer> {
 
     @Query("SELECT s FROM Servico s WHERE s.usuarioCliente.id = :clienteId AND s.usuarioCliente.isEditor = false")
     List<Servico> findByUsuarioClienteId(@Param("clienteId") Integer clienteId);

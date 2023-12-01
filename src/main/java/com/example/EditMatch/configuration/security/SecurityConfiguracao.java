@@ -1,7 +1,7 @@
 package com.example.EditMatch.configuration.security;
 
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
-import com.example.EditMatch.service.usuario.autenticacao.AutenticacaoService;
+import com.example.EditMatch.Service.usuario.autenticacao.AutenticacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -56,7 +55,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/editores"),
             new AntPathRequestMatcher("/editores/{id}"),
             new AntPathRequestMatcher("/editores/alerta"),
-       //     new AntPathRequestMatcher("/clientes"),
+            new AntPathRequestMatcher("/clientes"),
             new AntPathRequestMatcher("/clientes/{id}"),
             new AntPathRequestMatcher("/clientes/alerta"),
             new AntPathRequestMatcher("/usuarios"),
@@ -70,6 +69,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/abilitys/{id}"),
             new AntPathRequestMatcher("/abilitys/{desc}"),
             new AntPathRequestMatcher("/h2-console/**"),
+            new AntPathRequestMatcher("/websocket/**"),
             new AntPathRequestMatcher("/error/**")
     };
 

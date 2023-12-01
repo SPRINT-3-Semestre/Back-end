@@ -1,16 +1,7 @@
-package com.example.EditMatch.service.generic;
+package com.example.EditMatch.Service.generic;
 
 
 import com.example.EditMatch.Entity.Usuario;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public class ListaObj <T> {
 
