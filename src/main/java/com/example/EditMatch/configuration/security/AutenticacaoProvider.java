@@ -1,6 +1,6 @@
 package com.example.EditMatch.configuration.security;
 
-import com.example.EditMatch.Service.usuario.autenticacao.AutenticacaoService;
+import com.example.EditMatch.service.usuario.autenticacao.AutenticacaoService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
