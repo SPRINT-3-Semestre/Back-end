@@ -26,7 +26,7 @@ public class EditorMapper {
         editor.setUpdated_at(LocalDateTime.now());
         editor.setValorHora(editorCreateDto.getValorHora());
         editor.setPhoto_profile(editorCreateDto.getPhoto_profile());
-        editor.setIsEditor(false);
+        editor.setIsEditor(true);
         editor.setEmail(editorCreateDto.getEmail());
         editor.setPassword(editorCreateDto.getPassword());
 
