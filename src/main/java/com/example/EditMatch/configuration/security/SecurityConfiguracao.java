@@ -1,7 +1,7 @@
 package com.example.EditMatch.configuration.security;
 
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
-import com.example.EditMatch.Service.usuario.autenticacao.AutenticacaoService;
+import com.example.EditMatch.service.usuario.autenticacao.AutenticacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
