@@ -1,6 +1,6 @@
 package com.example.EditMatch.controller;
 
-import com.example.EditMatch.service.generic.WebSocketService;
+import com.example.EditMatch.Service.generic.WebSocketService;
 import com.example.EditMatch.service.generic.dto.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
