@@ -5,6 +5,7 @@ import com.example.EditMatch.Entity.Video;
 import com.example.EditMatch.Repository.UserRepository;
 import com.example.EditMatch.Repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,18 +31,24 @@ public class VideoService {
     }
 
     public Video create(Integer id, Video video) {
-        Optional<Usuario> userOptional = userRepository.findById(id);
+        // Verifica se o usuário existe
+        Usuario user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        Usuario user = userOptional.get();
+        // Define o usuário para o vídeo
         video.setUser(user);
-        videoRepository.save(video);
 
-        return video;
-
+        try {
+            // Salva o vídeo no repositório
+            video = videoRepository.save(video);
+            return video;
+        } catch (DataIntegrityViolationException e) {
+            // Manipula exceção de violação de integridade (por exemplo, duplicação de chave primária)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro de integridade de dados", e);
+        } catch (Exception e) {
+            // Manipula outras exceções
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor", e);
+        }
     }
 
     public Video update(Integer id, Video videoUpdated) {
@@ -70,4 +77,13 @@ public class VideoService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    public List<Video> listVideosDoEditor(Integer id) {
+        List<Video> videos = this.videoRepository.findByUser(userRepository.findById(id).get());
+
+        if (videos.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return videos;
+    }
 }
