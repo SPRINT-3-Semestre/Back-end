@@ -56,8 +56,4 @@ public class CartService {
         );
         cartRepository.deleteById(id);
     }
-    public Cart getCartById(Integer cartId) {
-        return cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
 }

@@ -1,6 +1,8 @@
 package com.example.EditMatch.controller.cart;
 
 import com.example.EditMatch.controller.cart.dto.CartCreateDto;
+import com.example.EditMatch.controller.cart.dto.CartResponseDto;
+import com.example.EditMatch.controller.cart.mapper.CartMapper;
 import com.example.EditMatch.entity.Cart;
 import com.example.EditMatch.service.CartService;
 import jakarta.validation.Valid;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,22 +19,17 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
-
-    @GetMapping("/{cartId}")
-    public ResponseEntity<Cart> getCartDetails(@PathVariable Integer cartId) {
-        Cart cart = cartService.getCartById(cartId);
-        if (cart == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(cart);
-    }
     @GetMapping
-    public ResponseEntity<List<Cart>>cartClient(@RequestParam Integer id){
+    public ResponseEntity<List<CartResponseDto>>cartClient(@RequestParam Integer id){
         List<Cart> cart = cartService.cartClient(id);
         if (cart.isEmpty()){
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(cart);
+        List<CartResponseDto> cartResponseDtoList = new ArrayList<>();
+        for (Cart c: cart) {
+            cartResponseDtoList.add(CartMapper.of(c));
+        }
+        return ResponseEntity.ok(cartResponseDtoList);
     }
     @PostMapping
     public ResponseEntity<Cart>addEditor(@Valid @RequestBody CartCreateDto carrinho){
