@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Address {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,5 +18,4 @@ public class Address {
     private String estado;
     private String bairro;
     private String numero;
-
 }
