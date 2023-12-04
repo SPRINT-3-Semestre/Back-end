@@ -24,11 +24,17 @@ public class VideoController {
         List<Video> list = videoService.list();
         return ResponseEntity.ok().body(list);
     }
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "Lista videos do editor", notes = "Retorna todos os videos cadastrados de um respctivo editor")
+    public ResponseEntity<List<Video>> listarVideosDoEditor(@PathVariable Integer userId) {
+        List<Video> list = videoService.listVideosDoEditor(userId);
+        return ResponseEntity.ok().body(list);
+    }
 
     @PostMapping("/{userId}")
     @ApiOperation(value = "Cadastra videos", notes = "Retorna 200 caso tenha cadastrado corretamente")
-    public ResponseEntity<Video> create(@PathVariable Integer id, @RequestBody Video video) {
-        Video video1 = videoService.create(id, video);
+    public ResponseEntity<Video> create(@PathVariable Integer userId, @RequestBody Video video) {
+        Video video1 = videoService.create(userId, video);
         return ResponseEntity.ok().body(video1);
     }
 

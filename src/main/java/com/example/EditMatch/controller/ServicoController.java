@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.EditMatch.controller.usuario.dto.CustomServiceInfo;
+import com.example.EditMatch.controller.usuario.dto.CustomServiceEditor;
+import java.util.List;
 import java.util.Stack;
 
 @RestController
@@ -43,5 +45,50 @@ public class ServicoController {
         servicoService.delete(id);
         return ResponseEntity.ok().build();
     }
+    // Endpoint para criar pedoido de um serviço
+    @PostMapping("/pedido/{idCliente}")
+    public ResponseEntity<Servico> createPedido(@PathVariable Integer idCliente, @RequestBody Servico servico) {
+        Servico pedido = servicoService.createPedido(idCliente, servico);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
+    }
+
+    // Endpoint para Editor aceitar um serviço
+    @PutMapping("/fazer-proposta/{idServico}/{idEditor}")
+    public ResponseEntity<CustomServiceInfo> aceitarServico(@PathVariable Integer idServico, @PathVariable Integer idEditor, @RequestParam Double valor) {
+        CustomServiceInfo customServiceInfo = servicoService.aceitarServico(idServico, idEditor, valor);
+        return ResponseEntity.ok(customServiceInfo);
+    }
+
+    @PutMapping("/cancelar-proposta/{idServico}")
+    public ResponseEntity<Servico> cancelarProposta(@PathVariable Integer idServico) {
+        Servico servico = servicoService.cancelarProposta(idServico);
+        return ResponseEntity.ok(servico);
+    }
+
+    @PutMapping("/finalizar-servico/{idServico}")
+    public ResponseEntity<Servico> finalizarServico(@PathVariable Integer idServico) {
+        Servico servico = servicoService.finalizarServico(idServico);
+        return ResponseEntity.ok(servico);
+    }
+
+    // Endpoint para listar serviços não contratados
+    @GetMapping("/listar-nao-contratados")
+    public ResponseEntity<List<Servico>> listarServicosNaoContratados() {
+        List<Servico> servicos = servicoService.listarServicosNaoContratados();
+        return ResponseEntity.ok(servicos);
+    }
+
+    @GetMapping("/empilhar-services/{id}")
+    public ResponseEntity<List<CustomServiceInfo>> listarServices(@PathVariable Integer id) {
+        List<CustomServiceInfo> servicesList = servicoService.empilharServices(id);
+        return ResponseEntity.ok(servicesList);
+    }
+
+    @GetMapping("/listar-servicos-editor/{idEditor}")
+    public ResponseEntity<List<CustomServiceEditor>> listarServicosParaEditor(@PathVariable Integer idEditor) {
+        List<CustomServiceEditor> servicesList = servicoService.listarServicosParaEditor(idEditor);
+        return ResponseEntity.ok(servicesList);
+    }
+
 
 }
