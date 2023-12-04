@@ -1,5 +1,6 @@
 package com.example.EditMatch.service.usuario;
 
+import com.example.EditMatch.controller.usuario.dto.UsuarioServiceDto;
 import com.example.EditMatch.controller.usuario.mapper.UsuarioMapper;
 import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.entity.Usuario;
@@ -15,14 +16,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
 import java.util.List;
@@ -181,4 +186,143 @@ public class UsuarioService {
         // Retorna o objeto File
         return new File(nomeArq);
     }
+
+    public void importarArquivoTxt(MultipartFile arquivoTxt) {
+        BufferedReader entrada = null;
+        String registro, tipoRegistro;
+        String nome, sobrenome, rg, cpf, email, descricaoPerfil;
+        boolean isEditor;
+        LocalDate dataNascimento;
+        int id, genero, qtdRegDadosGravados, contaRegDadosLidos = 0;
+
+
+        try {
+            String uploadDirectory = "resources/txt";
+
+            String fileName = arquivoTxt.getOriginalFilename();
+            Path filePath = Paths.get(uploadDirectory, fileName);
+
+            Files.copy(arquivoTxt.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (Exception e){
+
+        }
+
+        // Cria uma listaLida para receber os objetos Alunos com os dados lidos do arquivo
+        List<Usuario> listaLida = new ArrayList<>();
+
+        // Bloco try-catch para abrir o arquivo
+        try {
+            entrada = new BufferedReader(new FileReader("Usuarios"));
+        } catch (IOException erro) {
+            System.out.println("Erro ao abrir o arquivo");
+        }
+
+        // Bloco try-catch para ler o arquivo
+        try {
+            // Le a primeira linha do arquivo
+            registro = entrada.readLine();
+
+            while (registro != null) {
+                // Obtem o tipo do registro que sao os 2 primeiros caracteres do registro
+                // 0123456...
+                // 00NOTA20232
+                // 1234567...
+                // substring considera os indices iniciando de zero
+                // substring espera receber como 1o argumento o indice inicial do que se deseja
+                // e o 2o argumento eh o indice final do que se deseja MAIS UM
+                // O 2o argumento tem o mesmo valor da posicao final do campo no doc layout
+
+                tipoRegistro = registro.substring(0, 2);
+                if (tipoRegistro.equals("00")) {
+                    System.out.println("Eh um registro de header");
+                    System.out.println("Tipo de arquivo: " + registro.substring(2, 9));
+                    System.out.println("Data e hora de gravação do arquivo: " + registro.substring(9, 28));
+                    System.out.println("Versão do documento: " + registro.substring(28, 30));
+                } else if (tipoRegistro.equals("01")) {
+                    System.out.println("Eh um registro de trailer");
+                    qtdRegDadosGravados = Integer.parseInt(registro.substring(3, 7));
+                    if (qtdRegDadosGravados == contaRegDadosLidos) {
+                        System.out.println("Quantidade de reg de dados gravados é compatível com a " +
+                                "quantidade de reg de dados lidos");
+                    } else {
+                        System.out.println("Quantidade de reg de dados gravados é incompatível com a " +
+                                "quantidade de reg de dados lidos");
+                    }
+                } else if (tipoRegistro.equals("02")) {
+                    System.out.println("Eh um registro de corpo");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                    id = Integer.parseInt(registro.substring(2, 4).trim());
+                    // System.out.println(id);
+                    nome = registro.substring(4, 54).trim();
+                    // System.out.println(nome);
+                    sobrenome = registro.substring(54, 104).trim();
+                    // System.out.println(sobrenome);
+                    rg = registro.substring(104, 116).trim();
+                    // System.out.println(rg);
+                    cpf = registro.substring(116, 130).replace(',', '.');
+                    // System.out.println(cpf);
+                    dataNascimento = LocalDate.parse(registro.substring(130, 140),formatter);
+                    // System.out.println(dataNascimento);
+                    genero = Integer.parseInt(registro.substring(140, 141));
+                    // System.out.println(genero);
+                    isEditor = Boolean.parseBoolean(registro.substring(141, 146));
+                    // System.out.println(isEditor?"true":"false");
+                    email = registro.substring(146, 196).trim();
+                    // System.out.println(email);
+                    descricaoPerfil = registro.substring(196, 215).trim();
+                    // System.out.println(descricaoPerfil);
+
+                    // Contabiliza que leu mais um reg de dados
+                    contaRegDadosLidos++;
+
+                    // Criar um objeto Usuario com os dados lidos desse registro
+                    Usuario a = new Usuario();
+                    a.setId(id);
+                    a.setNome(nome);
+                    a.setLast_name(sobrenome);
+                    a.setRg(rg);
+                    a.setCpf(cpf);
+                    a.setBirth(dataNascimento);
+                    a.setGender(genero);
+                    a.setIsEditor(isEditor);
+                    a.setEmail(email);
+                    a.setDesc_profile(descricaoPerfil);
+                    System.out.println(a);
+                    // Para importar esse dado, podemos fazer
+                    // teste salvando no banco
+                   // usuarioRepositoryJwt.save(a);
+
+                    // No nosso caso, como não estamos conectados a banco de dados,
+                    // vamos add o objeto a a uma listaLida
+                    listaLida.add(a);
+                } else {
+                    System.out.println("Eh um registro inválido");
+                }
+
+                // Le o proximo registro do arquivo
+                registro = entrada.readLine();
+            } // fim do while
+
+            // Fecha o arquivo
+            entrada.close();
+
+        } // fim do try
+        catch (IOException erro) {
+            System.out.println("Erro ao ler o arquivo");
+            erro.printStackTrace();
+        }
+
+        // Aqui tb seria possível enviar toda a lista para o BD
+        // repository.saveAll(listaLida);
+
+        // Exibe a lista lida
+        System.out.println("\nLista lida:");
+        for (Usuario a : listaLida) {
+            System.out.println(a);
+        }
+    }
+
+
+
 }

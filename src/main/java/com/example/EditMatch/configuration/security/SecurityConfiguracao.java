@@ -70,7 +70,8 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/abilitys/{desc}"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/websocket/**"),
-            new AntPathRequestMatcher("/error/**")
+            new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/usuarios/import/txt")
     };
 
     @Bean
