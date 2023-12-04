@@ -2,6 +2,7 @@ package com.example.EditMatch.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,13 +15,13 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Max(50)
+    @Size(min = 3, max = 100)
     private String title;
 
-    @Max(100)
+    @Size(min = 3, max = 100)
     private String descricao;
 
-    @Max(100)
+    @Size(min = 3, max = 100)
     private String link;
 
     @ManyToOne

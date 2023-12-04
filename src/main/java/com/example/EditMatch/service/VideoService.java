@@ -70,4 +70,14 @@ public class VideoService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    public List<Video> listVideosDoEditor(Integer id) {
+        List<Video> videos = this.videoRepository.findByUser(userRepository.findById(id).get());
+
+        if (videos.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return videos;
+    }
+
 }
