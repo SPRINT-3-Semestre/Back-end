@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Ability {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -16,5 +15,4 @@ public class Ability {
     private String desc;
     @ManyToOne
     private Usuario usuario;
-
 }

@@ -25,21 +25,18 @@ public class AbilityController {
         List<Ability> abilities = abilityService.saveAbilitys(habilidades, id);
         return ResponseEntity.ok(abilities);
     }
-
     @PutMapping("/atualizar/{id}")
     @ApiOperation(value = "Atualiza habilidades", notes = "Retorna as habilidades atualizadas")
     public ResponseEntity<List<Ability>> atualizarHabilidades(@PathVariable int id, @RequestBody List<Ability> habilidadesAtualizadas) {
         List<Ability> abilitiesUpdatedAt = abilityService.updateAbilitys(habilidadesAtualizadas, id);
         return ResponseEntity.ok().body(abilitiesUpdatedAt);
     }
-
     @DeleteMapping()
     @ApiOperation(value = "Deleta ability", notes = "asdasd")
     public ResponseEntity<Void> deletar(@RequestParam int id){
         abilityService.deleteAbility(id);
         return ResponseEntity.noContent().build();
     }
-
     @GetMapping("/buscar/{id}")
     @ApiOperation(value = "Busca habilidades por ID de usuário", notes = "Retorna a lista de habilidades de um usuário")
     public ResponseEntity<List<Ability>> buscarHabilidadesPorIdUsuario(@PathVariable int id) {

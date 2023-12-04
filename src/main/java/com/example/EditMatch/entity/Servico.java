@@ -13,18 +13,15 @@ public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @ManyToOne
     private Usuario usuarioCliente;
-
     @ManyToOne
     private Usuario usuarioEditor;
-
     private String title;
     private String desc;
     private Double valor;
-    private LocalDate createdAt;
     private LocalDate expectedDate;
+    private LocalDate createdAt;
     private LocalDate updatedAt;
     private LocalDate finishedAt;
 }
