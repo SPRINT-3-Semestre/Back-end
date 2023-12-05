@@ -21,8 +21,10 @@ public class CartMapper {
         CartResponseDto cartResponseDto = new CartResponseDto();
 
         cartResponseDto.setName(cart.getEditor().getNome());
-        cartResponseDto.setSkills(cart.getEditor().getHabilidades().toString());
+        cartResponseDto.setSkills(cart.getEditor().getHabilidades());
         cartResponseDto.setPrice(cart.getEditor().getValorHora());
+        cartResponseDto.setCardId(cart.getId());
+        cartResponseDto.setEditorId(cart.getEditor().getId());
 
         return cartResponseDto;
     }
