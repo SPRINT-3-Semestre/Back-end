@@ -37,7 +37,7 @@ public class EditorController {
     public ResponseEntity<EditorResponseDto> register(@RequestBody @Valid EditorCreateDto editorCreateDto) {
         Editor register = editorService.register(editorCreateDto);
         EditorResponseDto editorResponseDto = EditorMapper.of(register);
-        return ResponseEntity.status(200).body(editorResponseDto);
+        return ResponseEntity.status(201).body(editorResponseDto);
     }
 
     @GetMapping

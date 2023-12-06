@@ -4,39 +4,43 @@ import com.example.EditMatch.controller.order.dto.OrderCreateDto;
 import com.example.EditMatch.controller.order.dto.OrderResponseDto;
 import com.example.EditMatch.entity.ClientFinal;
 import com.example.EditMatch.entity.Editor;
-import com.example.EditMatch.entity.Order;
+import com.example.EditMatch.entity.Orders;
 
 
 public class OrderMapper {
 
-    public static Order toOrder(OrderCreateDto orderCreateDto, ClientFinal clientFinal, Editor editor) {
-        return new Order(
+    public static Orders toOrder(OrderCreateDto orderCreateDto, ClientFinal clientFinal, Editor editor) {
+        return new Orders(
                 null,
                 orderCreateDto.getTitle(),
                 orderCreateDto.getDesc(),
-                orderCreateDto.getSkills(),
-                editor,
+                orderCreateDto.getSkills().toString(),
+                null,
                 clientFinal
         );
     }
-    public static Order of(OrderCreateDto orderCreateDto){
-        Order order = new Order();
+    public static Orders of(OrderCreateDto orderCreateDto){
+        Orders orders = new Orders();
 
-        order.setTitle(orderCreateDto.getTitle());
-        order.setDesc(orderCreateDto.getDesc());
-        order.setSkills(orderCreateDto.getSkills());
+        orders.setTitle(orderCreateDto.getTitle());
+        orders.setDesc(orderCreateDto.getDesc());
+        orders.setSkills(orderCreateDto.getSkills().toString());
+        orders.setClientFinal(orders.getClientFinal());
+        orders.setEditor(null);
 
-        return order;
+        return orders;
     }
 
-    public static OrderResponseDto of(Order order){
+    public static OrderResponseDto of(Orders orders){
         OrderResponseDto orderResponseDto = new OrderResponseDto();
 
-        orderResponseDto.setTitle(order.getTitle());
-        orderResponseDto.setDesc(order.getDesc());
-        orderResponseDto.setSkills(order.getSkills());
-        orderResponseDto.setEditorId(order.getEditor().getId());
-        orderResponseDto.setOrderId(order.getId());
+        orderResponseDto.setTitle(orders.getTitle());
+        orderResponseDto.setDesc(orders.getDesc());
+        orderResponseDto.setSkills(orders.getSkills());
+        if (orders.getEditor() != null) {
+            orderResponseDto.setEditorId(orders.getEditor().getId());
+        }
+        orderResponseDto.setOrderId(orders.getId());
 
         return orderResponseDto;
     }

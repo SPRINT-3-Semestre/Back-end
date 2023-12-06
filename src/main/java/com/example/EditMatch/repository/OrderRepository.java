@@ -1,23 +1,17 @@
 package com.example.EditMatch.repository;
 
 import com.example.EditMatch.entity.ClientFinal;
-import com.example.EditMatch.entity.Order;
-import jakarta.transaction.Transactional;
+import com.example.EditMatch.entity.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, Integer> {
-    @Query("SELECT o FROM Order o WHERE o.clientFinal =:id")
-    List<Order> orderClient(ClientFinal id);
+public interface OrderRepository extends JpaRepository<Orders, Integer> {
+    @Query("SELECT o FROM Orders o WHERE o.clientFinal =:id")
+    List<Orders> orderClient(ClientFinal id);
 
-    @Query("UPDATE Order o SET o.clientFinal = :valorTotal WHERE o.id = :id")
-    Integer editCart(Integer id, Integer valorTotal);
+    @Query("UPDATE Orders o SET o.title = :title, o.desc = :desc, o.skills = :skills WHERE o.id = :id")
+    Integer editOrder(Integer id, String title, String desc, String skills);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Order c WHERE c.clientFinal=:id")
-    Integer emptyCart(ClientFinal id);
 }
