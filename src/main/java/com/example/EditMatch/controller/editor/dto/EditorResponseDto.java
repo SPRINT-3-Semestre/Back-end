@@ -3,6 +3,7 @@ package com.example.EditMatch.controller.editor.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 @Data
@@ -18,4 +19,6 @@ public class EditorResponseDto {
     private String desc_profile;
     private LocalDate dataEntrega;
     private Double valorHora;
+    private byte[] photoProfileData;
+    private MultipartFile photoProfileFile;
 }

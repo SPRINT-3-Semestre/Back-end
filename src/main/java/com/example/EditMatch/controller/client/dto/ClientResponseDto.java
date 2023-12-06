@@ -1,6 +1,7 @@
 package com.example.EditMatch.controller.client.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 @Data
@@ -14,4 +15,6 @@ public class ClientResponseDto {
     private String desc_profile;
     private LocalDate dataEntrega;
     private Double valorHora;
+    private byte[] photoProfileData;
+    private MultipartFile photoProfileFile;
 }

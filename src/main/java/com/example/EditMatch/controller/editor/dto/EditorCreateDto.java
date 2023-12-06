@@ -1,8 +1,11 @@
 package com.example.EditMatch.controller.editor.dto;
 
 import com.example.EditMatch.controller.usuario.dto.UsuarioCriacaoDto;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +26,6 @@ public class EditorCreateDto {
     @Min(value = 0, message = "O valor mínimo para gender é 0")
     @Max(value = 1, message = "O valor máximo para gender é 1")
     private Integer gender;
-    private String photo_profile;
     @Size(min = 8, message = "A descrição do perfil deve ter pelo menos 8 caracteres")
     private String desc_profile;
     @Future(message = "A data de entrega deve estar no futuro")
@@ -38,5 +40,7 @@ public class EditorCreateDto {
     private boolean isEditor;
     private String email;
     private String password;
+    private byte[] photoProfileData;
+    private MultipartFile photoProfileFile;
 }
 
