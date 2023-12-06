@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -119,9 +120,28 @@ public class UsuarioController {
             return ResponseEntity.status(500).body(null);
         }
     }
+    @PostMapping("/{usuarioId}/upload-photo")
+    public ResponseEntity<String> uploadFotoPerfil(
+            @PathVariable Integer usuarioId,
+            @RequestParam("file") MultipartFile file) {
 
+        Optional<Usuario> isUsuario = userRepository.findById(usuarioId);
 
+        if (isUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
 
+        Usuario usuario1 = isUsuario.get();
+
+        try {
+            byte[] fotoDados = file.getBytes();
+            usuario1.setPhotoProfileData(fotoDados);
+            userRepository.save(usuario1);
+            return ResponseEntity.ok("Upload da imagem de perfil realizado com sucesso");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar o upload da imagem");
+        }
+    }
     @CrossOrigin
     @GetMapping("/import/txt")
     @ApiOperation(value = "Importa TXT", notes = "importar TXT")

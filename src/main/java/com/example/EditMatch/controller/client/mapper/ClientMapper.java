@@ -22,10 +22,11 @@ public class ClientMapper {
         client.setDesc_profile(clientCreateDto.getDesc_profile());
         client.setCreated_at(LocalDateTime.now());
         client.setUpdated_at(LocalDateTime.now());
-        client.setPhoto_profile(clientCreateDto.getPhoto_profile());
         client.setIsEditor(false);
         client.setEmail(clientCreateDto.getEmail());
         client.setPassword(clientCreateDto.getPassword());
+        client.setPhotoProfileData(clientCreateDto.getPhotoProfileData());
+        client.setPhotoProfileFile(clientCreateDto.getPhotoProfileFile());
 
         return client;
     }
@@ -40,7 +41,8 @@ public class ClientMapper {
         clientResponseDto.setGender(clientFinal.getGender());
         clientResponseDto.setDataEntrega(clientFinal.getDataEntrega());
         clientResponseDto.setDesc_profile(clientFinal.getDesc_profile());
-        clientResponseDto.setPhoto_profile(clientFinal.getPhoto_profile());
+        clientResponseDto.setPhotoProfileData(clientFinal.getPhotoProfileData());
+        clientResponseDto.setPhotoProfileFile(clientFinal.getPhotoProfileFile());
 
         return clientResponseDto;
     }

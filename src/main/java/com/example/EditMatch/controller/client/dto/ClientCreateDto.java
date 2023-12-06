@@ -2,6 +2,7 @@ package com.example.EditMatch.controller.client.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,4 +34,6 @@ public class ClientCreateDto {
     private LocalDateTime updated_at;
     private String email;
     private String password;
+    private byte[] photoProfileData;
+    private MultipartFile photoProfileFile;
 }

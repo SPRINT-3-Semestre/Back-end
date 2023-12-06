@@ -25,10 +25,11 @@ public class EditorMapper {
         editor.setCreated_at(LocalDateTime.now());
         editor.setUpdated_at(LocalDateTime.now());
         editor.setValorHora(editorCreateDto.getValorHora());
-        editor.setPhoto_profile(editorCreateDto.getPhoto_profile());
         editor.setIsEditor(true);
         editor.setEmail(editorCreateDto.getEmail());
         editor.setPassword(editorCreateDto.getPassword());
+        editor.setPhotoProfileData(editorCreateDto.getPhotoProfileData());
+        editor.setPhotoProfileFile(editorCreateDto.getPhotoProfileFile());
 
         return editor;
     }
@@ -44,7 +45,9 @@ public class EditorMapper {
         editorDto.setDataEntrega(editor.getDataEntrega());
         editorDto.setDesc_profile(editor.getDesc_profile());
         editorDto.setValorHora(editor.getValorHora());
-        editorDto.setPhoto_profile(editor.getPhoto_profile());
+        editorDto.setPhotoProfileFile(editor.getPhotoProfileFile());
+        editorDto.setPhotoProfileData(editor.getPhotoProfileData());
+
 
         return editorDto;
     }

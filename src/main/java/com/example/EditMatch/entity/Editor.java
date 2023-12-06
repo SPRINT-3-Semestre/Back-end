@@ -1,5 +1,6 @@
 package com.example.EditMatch.entity;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@DiscriminatorValue("Editor")
 public class Editor extends Usuario {
     private List<String> portifolio = new ArrayList<>();
 

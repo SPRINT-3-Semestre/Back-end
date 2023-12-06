@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
 public class Usuario {
 
     @Id
@@ -35,7 +38,6 @@ public class Usuario {
     private String email;
     @Size(min = 8, message = "A senha deve ter pelo menos 8 caracteres")
     private String password;
-    private String photo_profile;
     private String desc_profile;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
@@ -45,6 +47,11 @@ public class Usuario {
     private String chavePix;
     @OneToOne
     private Address address;
+    @Lob
+    @Column(name = "photo_profile_data")
+    private byte[] photoProfileData;
+    @Transient
+    private MultipartFile photoProfileFile;
 
     public Usuario() {
     }
