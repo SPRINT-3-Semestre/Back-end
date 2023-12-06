@@ -21,6 +21,18 @@ public class OrderController {
 
     private final OrderService orderService;
     @GetMapping
+    public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
+        List<Orders> orders = orderService.getAllOrders();
+        if (orders.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        for (Orders order : orders) {
+            orderResponseDtoList.add(OrderMapper.of(order));
+        }
+        return ResponseEntity.ok(orderResponseDtoList);
+    }
+    @GetMapping
     public ResponseEntity<List<OrderResponseDto>> orderClient(@RequestParam Integer id) {
         List<Orders> orders = orderService.orderClient(id);
         if (orders.isEmpty()) {
