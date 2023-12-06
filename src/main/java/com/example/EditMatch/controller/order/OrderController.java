@@ -32,7 +32,7 @@ public class OrderController {
         }
         return ResponseEntity.ok(orderResponseDtoList);
     }
-    @GetMapping
+    @GetMapping("/order-client")
     public ResponseEntity<List<OrderResponseDto>> orderClient(@RequestParam Integer id) {
         List<Orders> orders = orderService.orderClient(id);
         if (orders.isEmpty()) {
