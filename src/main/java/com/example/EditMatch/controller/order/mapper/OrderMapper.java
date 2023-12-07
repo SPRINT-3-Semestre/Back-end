@@ -41,6 +41,7 @@ public class OrderMapper {
             orderResponseDto.setEditorId(orders.getEditor().getId());
         }
         orderResponseDto.setOrderId(orders.getId());
+        orderResponseDto.setNome(orders.getClientFinal().getNome());
 
         return orderResponseDto;
     }
