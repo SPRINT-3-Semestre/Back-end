@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,27 +23,23 @@ public class EditorService {
     private final UsuarioService usuarioService;
     private final UserRepository userRepository;
 
-    public List<EditorResumoDto> listSummary() {
-        List<Editor> editores = editorRepository.findAll();
-        List<EditorResumoDto> editorResumoDtoArrayList = new ArrayList<>();
-
-        if(editores.isEmpty()) {
+    public EditorResumoDto listSummary(Integer id) {
+        Optional<Editor> isEditor = editorRepository.findById(id);
+        if(isEditor.isEmpty()) {
             throw new EditorException("Editor não encontrado");
         }
+        Editor editor = isEditor.get();
 
-        for (Editor e: editores ) {
-            EditorResumoDto editorResumoDto = new EditorResumoDto();
-            editorResumoDto.setId(e.getId());
-            editorResumoDto.setNome(e.getNome());
-            editorResumoDto.setValorHora(e.getValorHora());
-            editorResumoDto.setPhotoProfileData(e.getPhotoProfileData());
-            editorResumoDto.setPhotoProfileFile(e.getPhotoProfileFile());
+        EditorResumoDto editorResumoDto = new EditorResumoDto();
 
-            editorResumoDtoArrayList.add(editorResumoDto);
-        }
+        editorResumoDto.setId(editor.getId());
+        editorResumoDto.setNome(editor.getNome());
+        editorResumoDto.setValorHora(editor.getValorHora());
+        editorResumoDto.setPhotoProfileData(editor.getPhotoProfileData());
+        editorResumoDto.setPhotoProfileFile(editor.getPhotoProfileFile());
+        editorResumoDto.setSkills(editor.getSkills());
 
-        return editorResumoDtoArrayList;
-
+        return editorResumoDto;
     }
 
     public Editor register(EditorCreateDto editorCreateDto) {

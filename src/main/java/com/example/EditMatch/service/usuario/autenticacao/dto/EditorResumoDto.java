@@ -10,8 +10,7 @@ public class EditorResumoDto {
     private Integer id;
     private String nome;
     private Double valorHora;
-    private List<String> habilidades = new ArrayList<>();
-    private String photo_profile;
+    private String skills;
     private byte[] photoProfileData;
     private MultipartFile photoProfileFile;
 }

@@ -24,10 +24,11 @@ public class EditorController {
 
     private final EditorService editorService;
 
-    @GetMapping("/{listarResumo}")
-    public ResponseEntity<List<EditorResumoDto>> listSummary() {
-        List<EditorResumoDto> editorSummary = editorService.listSummary();
-        return ResponseEntity.ok().body(editorSummary);
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Obter editor por ID", notes = "Retorna o editor com o ID especificado")
+    public ResponseEntity<EditorResumoDto> getById(@PathVariable int id) {
+        EditorResumoDto editor = editorService.listSummary(id);
+        return ResponseEntity.ok(editor);
     }
 
     @CrossOrigin
@@ -49,7 +50,7 @@ public class EditorController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualiza usuario", notes = "Retorna o usuarios atualizado")
-    public ResponseEntity<Editor> updata(@PathVariable int id, @RequestBody Editor editor){
+    public ResponseEntity<Editor> update(@PathVariable int id, @RequestBody Editor editor){
         Editor editorUpdated = editorService.update(id, editor);
 
         return ResponseEntity.ok().body(editorUpdated);
