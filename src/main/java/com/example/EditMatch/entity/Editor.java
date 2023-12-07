@@ -14,12 +14,7 @@ import java.util.List;
 @Setter
 @DiscriminatorValue("Editor")
 public class Editor extends Usuario {
-    private List<String> portifolio = new ArrayList<>();
-
-    private List<String> habilidades = new ArrayList<>();
-
-    private List<String> link = new ArrayList<>();
-
+    private String skills;
 
     public String alertarPrazo() {
         LocalDate dataAtual = LocalDate.now();

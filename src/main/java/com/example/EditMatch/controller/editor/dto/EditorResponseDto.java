@@ -21,4 +21,5 @@ public class EditorResponseDto {
     private Double valorHora;
     private byte[] photoProfileData;
     private MultipartFile photoProfileFile;
+    private String skills;
 }

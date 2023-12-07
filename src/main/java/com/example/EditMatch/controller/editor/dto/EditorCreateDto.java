@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class EditorCreateDto {
@@ -42,5 +43,6 @@ public class EditorCreateDto {
     private String password;
     private byte[] photoProfileData;
     private MultipartFile photoProfileFile;
+    private List<String> skills;
 }
 

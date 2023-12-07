@@ -34,7 +34,6 @@ public class EditorService {
             EditorResumoDto editorResumoDto = new EditorResumoDto();
             editorResumoDto.setId(e.getId());
             editorResumoDto.setNome(e.getNome());
-            editorResumoDto.setHabilidades(e.getHabilidades());
             editorResumoDto.setValorHora(e.getValorHora());
             editorResumoDto.setPhotoProfileData(e.getPhotoProfileData());
             editorResumoDto.setPhotoProfileFile(e.getPhotoProfileFile());

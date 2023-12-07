@@ -30,6 +30,7 @@ public class EditorMapper {
         editor.setPassword(editorCreateDto.getPassword());
         editor.setPhotoProfileData(editorCreateDto.getPhotoProfileData());
         editor.setPhotoProfileFile(editorCreateDto.getPhotoProfileFile());
+        editor.setSkills(editorCreateDto.getSkills().toString());
 
         return editor;
     }
@@ -47,7 +48,7 @@ public class EditorMapper {
         editorDto.setValorHora(editor.getValorHora());
         editorDto.setPhotoProfileFile(editor.getPhotoProfileFile());
         editorDto.setPhotoProfileData(editor.getPhotoProfileData());
-
+        editorDto.setSkills(editor.getSkills());
 
         return editorDto;
     }
