@@ -1,17 +1,15 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.editor;
 
 import com.example.EditMatch.controller.editor.dto.EditorCreateDto;
 import com.example.EditMatch.controller.editor.mapper.EditorMapper;
 import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.repository.EditorRepository;
 import com.example.EditMatch.repository.UserRepository;
-import com.example.EditMatch.repository.UsuarioRepositoryJWT;
+import com.example.EditMatch.service.editor.exception.EditorException;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ public class EditorService {
         List<EditorResumoDto> editorResumoDtoArrayList = new ArrayList<>();
 
         if(editores.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EditorException("Editor não encontrado");
         }
 
         for (Editor e: editores ) {
@@ -51,7 +49,7 @@ public class EditorService {
     public Editor register(EditorCreateDto editorCreateDto) {
         Editor editor1 = editorRepository.findByEmail(editorCreateDto.getEmail());
         if (editor1 != null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EditorException("Editor não encontrado");
         }
 
         Editor editorMapped = EditorMapper.of(editorCreateDto);
@@ -63,7 +61,7 @@ public class EditorService {
         List<Editor> users = this.editorRepository.findAll();
 
         if (users.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EditorException("Editor não encontrado");
         }
         return users;
     }
@@ -75,7 +73,7 @@ public class EditorService {
             return this.editorRepository.save(editor);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new EditorException("Editor não encontrado");
     }
 
     public void delete(Integer id) {
@@ -83,6 +81,6 @@ public class EditorService {
             this.editorRepository.deleteById(id);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new EditorException("Editor não encontrado");
     }
 }

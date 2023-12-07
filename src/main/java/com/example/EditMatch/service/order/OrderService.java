@@ -1,4 +1,4 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.order;
 
 import com.example.EditMatch.controller.order.dto.OrderCreateDto;
 import com.example.EditMatch.controller.order.mapper.OrderMapper;
@@ -8,10 +8,9 @@ import com.example.EditMatch.entity.Orders;
 import com.example.EditMatch.repository.ClientFinalRepository;
 import com.example.EditMatch.repository.EditorRepository;
 import com.example.EditMatch.repository.OrderRepository;
+import com.example.EditMatch.service.order.exception.OrderException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class OrderService {
 
     public Orders add(OrderCreateDto orderCreateDto) {
         ClientFinal clientFinal = clientFinalRepository.findById(orderCreateDto.getClientFinal())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new OrderException("Cliente não encontrado"));
 
         Orders newOrders = OrderMapper.toOrder(orderCreateDto, clientFinal, null);
 
@@ -34,10 +33,10 @@ public class OrderService {
 
     public void associateEditor(Integer orderId, Integer editorId) {
         Orders orders = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new OrderException("Ordem não encontrada"));
 
         Editor editor = editorRepository.findById(editorId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new OrderException("Editor não encontrado"));
 
         orders.setEditor(editor);
         orderRepository.save(orders);
@@ -45,20 +44,20 @@ public class OrderService {
 
     public List<Orders> orderClient(Integer id){
         ClientFinal clientFinal = clientFinalRepository.findById(id).orElseThrow(
-                ()->new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()->new OrderException("Cliente não encontrado")
         );
         return orderRepository.orderClient(clientFinal);
     }
     public void edit(Integer id, String title, String desc, String skills){
         orderRepository.findById(id).orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()-> new OrderException("Ordem não encontrada")
         );
         orderRepository.editOrder(id,title,desc,skills);
     }
     public void removeEditorFromOrder(Integer id){
         Optional<Orders> byId = orderRepository.findById(id);
         if(byId.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new OrderException("Ordem não encontrada");
         }
         Orders orders = byId.get();
         orders.setEditor(null);

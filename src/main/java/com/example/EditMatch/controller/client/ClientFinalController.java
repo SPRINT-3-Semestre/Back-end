@@ -5,7 +5,7 @@ import com.example.EditMatch.controller.client.dto.ClientResponseDto;
 import com.example.EditMatch.controller.client.mapper.ClientMapper;
 import com.example.EditMatch.entity.ClientFinal;
 import com.example.EditMatch.entity.Usuario;
-import com.example.EditMatch.service.ClientFinalService;
+import com.example.EditMatch.service.client.ClientFinalService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

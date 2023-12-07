@@ -1,7 +1,7 @@
 package com.example.EditMatch.controller;
 
 import com.example.EditMatch.entity.Address;
-import com.example.EditMatch.service.AddressService;
+import com.example.EditMatch.service.address.AddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

@@ -1,14 +1,13 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.portfolio;
 
 import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.*;
 import com.example.EditMatch.repository.PortfolioRepository;
 import com.example.EditMatch.repository.UserRepository;
+import com.example.EditMatch.service.portfolio.exception.PortfolioException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -18,12 +17,11 @@ public class PortifolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
 
-
     public Portifolio add(PortfolioCreateDto portfolioCreateDto) {
         Optional<Usuario> isEditor = userRepository.findById(portfolioCreateDto.getEditorId());
 
         if(isEditor.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new PortfolioException("Editor não encontrado");
         }
         Usuario usuario = isEditor.get();
         Portifolio portifolio = PortfolioMapper.of(portfolioCreateDto);
@@ -38,12 +36,12 @@ public class PortifolioService {
 
     public Portifolio getPortfolioById(Integer portfolioId) {
         return portfolioRepository.findById(portfolioId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PortfolioException("Portifolio não encontrado"));
     }
 
     public Portifolio updatePortfolio(Integer portfolioId, PortfolioCreateDto updatedPortfolioDto) {
         Portifolio existingPortfolio = portfolioRepository.findById(portfolioId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PortfolioException("Portifolio não encontrado"));
 
         existingPortfolio.setDesc(updatedPortfolioDto.getDesc());
         existingPortfolio.setLinkYtVideoId(updatedPortfolioDto.getLinkYtVideoId());
@@ -55,7 +53,7 @@ public class PortifolioService {
 
     public void deletePortfolio(Integer portfolioId) {
         if (!portfolioRepository.existsById(portfolioId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new PortfolioException("Portifolio não encontrado");
         }
         portfolioRepository.deleteById(portfolioId);
     }

@@ -4,7 +4,7 @@ import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.controller.portfolio.dto.PortfolioResponseDto;
 import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.Portifolio;
-import com.example.EditMatch.service.PortifolioService;
+import com.example.EditMatch.service.portfolio.PortifolioService;
 import com.example.EditMatch.service.YouTubeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

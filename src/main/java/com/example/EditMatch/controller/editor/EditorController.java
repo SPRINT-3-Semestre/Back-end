@@ -4,7 +4,7 @@ import com.example.EditMatch.controller.editor.dto.EditorCreateDto;
 import com.example.EditMatch.controller.editor.dto.EditorResponseDto;
 import com.example.EditMatch.controller.editor.mapper.EditorMapper;
 import com.example.EditMatch.entity.Editor;
-import com.example.EditMatch.service.EditorService;
+import com.example.EditMatch.service.editor.EditorService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

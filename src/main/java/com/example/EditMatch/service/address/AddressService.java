@@ -1,9 +1,10 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.address;
 
 import com.example.EditMatch.entity.Address;
 import com.example.EditMatch.entity.Usuario;
 import com.example.EditMatch.repository.AddressRepository;
 import com.example.EditMatch.repository.UserRepository;
+import com.example.EditMatch.service.address.exception.AddressException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AddressService {
         Optional<Usuario> usuario = userRepository.findById(id);
 
         if(usuario.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new AddressException("Usuário não encontrado");
         }
 
         Usuario user = usuario.get();
@@ -38,13 +39,13 @@ public class AddressService {
         Optional<Usuario> usuarioOptional = userRepository.findById(id);
 
         if (usuarioOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new AddressException("Usuário não encontrado");
         }
 
         Usuario usuario = usuarioOptional.get();
 
         if (usuario.getAddress() == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new AddressException("Endereço não encontrado");
         }
 
         Address addressAtual = usuario.getAddress();

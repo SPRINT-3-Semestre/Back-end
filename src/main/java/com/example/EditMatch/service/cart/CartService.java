@@ -1,4 +1,4 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.cart;
 
 import com.example.EditMatch.controller.cart.dto.CartCreateDto;
 import com.example.EditMatch.controller.cart.mapper.CartMapper;
@@ -8,10 +8,9 @@ import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.repository.CartRepository;
 import com.example.EditMatch.repository.ClientFinalRepository;
 import com.example.EditMatch.repository.EditorRepository;
+import com.example.EditMatch.service.cart.exception.CartException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,14 +24,14 @@ public class CartService {
 
     public Cart add(CartCreateDto cartCreateDto){
         ClientFinal clientFinal = clientFinalRepository.findById(cartCreateDto.getClientFinal())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CartException("Cliente não encontrado"));
         Editor editor = editorRepository.findById(cartCreateDto.getEditor())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CartException("Editor não encontrado"));
         return cartRepository.save(CartMapper.toCart(cartCreateDto,clientFinal,editor));
     }
     public List<Cart> cartClient(Integer id){
         ClientFinal clientFinal = clientFinalRepository.findById(id).orElseThrow(
-                ()->new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()->new CartException("Cliente não encontrado")
         );
         List<Cart> carrinho = cartRepository.cartClient(clientFinal);
 
@@ -40,19 +39,19 @@ public class CartService {
     }
     public void edit(Integer id, Integer valorTotal){
         cartRepository.findById(id).orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()-> new CartException("Carrinho não encontrado")
         );
         cartRepository.editCart(id,valorTotal);
     }
     public void emptyCart(Integer id){
         ClientFinal clientFinal = clientFinalRepository.findById(id).orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()-> new CartException("Cliente não encontrado")
         );
         cartRepository.emptyCart(clientFinal);
     }
     public void removeEditor(Integer id){
         cartRepository.findById(id).orElseThrow(
-                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                ()-> new CartException("Carrinho não encontrado")
         );
         cartRepository.deleteById(id);
     }

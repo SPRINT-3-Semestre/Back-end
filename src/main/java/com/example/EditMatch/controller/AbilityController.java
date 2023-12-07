@@ -1,7 +1,7 @@
 package com.example.EditMatch.controller;
 
 import com.example.EditMatch.entity.Ability;
-import com.example.EditMatch.service.AbilityService;
+import com.example.EditMatch.service.ability.AbilityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

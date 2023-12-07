@@ -4,7 +4,7 @@ import com.example.EditMatch.controller.cart.dto.CartCreateDto;
 import com.example.EditMatch.controller.cart.dto.CartResponseDto;
 import com.example.EditMatch.controller.cart.mapper.CartMapper;
 import com.example.EditMatch.entity.Cart;
-import com.example.EditMatch.service.CartService;
+import com.example.EditMatch.service.cart.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

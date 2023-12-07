@@ -4,7 +4,7 @@ import com.example.EditMatch.controller.order.dto.OrderCreateDto;
 import com.example.EditMatch.controller.order.dto.OrderResponseDto;
 import com.example.EditMatch.controller.order.mapper.OrderMapper;
 import com.example.EditMatch.entity.Orders;
-import com.example.EditMatch.service.OrderService;
+import com.example.EditMatch.service.order.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

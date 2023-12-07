@@ -1,4 +1,4 @@
-package com.example.EditMatch.service;
+package com.example.EditMatch.service.client;
 
 import com.example.EditMatch.controller.client.dto.ClientCreateDto;
 import com.example.EditMatch.controller.client.mapper.ClientMapper;
@@ -6,11 +6,10 @@ import com.example.EditMatch.entity.ClientFinal;
 import com.example.EditMatch.entity.Usuario;
 import com.example.EditMatch.repository.ClientFinalRepository;
 import com.example.EditMatch.repository.UserRepository;
+import com.example.EditMatch.service.client.exception.ClientException;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ClientFinalService {
     public List<Usuario> list() {
         List<Usuario> users = this.userRepository.findAll();
         if (users.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ClientException("Nenhum usuário encontrado");
         }
         return users;
     }
@@ -33,7 +32,7 @@ public class ClientFinalService {
     public ClientFinal register(ClientCreateDto clientCreateDto) {
         boolean isEmail = clientFinalRepository.existsByEmail(clientCreateDto.getEmail());
         if (isEmail) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new  ClientException("Email já cadastrado");
         }
         ClientFinal clientFinal = ClientMapper.of(clientCreateDto);
         usuarioService.cadastrar(clientFinal);
@@ -46,7 +45,7 @@ public class ClientFinalService {
             return this.userRepository.save(clientFinal);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new  ClientException("Nenhum usuário encontrado");
     }
 
     public void delete(Integer id) {
@@ -54,6 +53,6 @@ public class ClientFinalService {
             this.userRepository.deleteById(id);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        throw new  ClientException("Nenhum usuário encontrado");
     }
 }
