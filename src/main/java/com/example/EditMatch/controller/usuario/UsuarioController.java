@@ -120,6 +120,25 @@ public class UsuarioController {
             return ResponseEntity.status(500).body(null);
         }
     }
+    @GetMapping("/{usuarioId}/photo")
+    public ResponseEntity<byte[]> getFotoPerfil(@PathVariable Integer usuarioId) {
+        Optional<Usuario> isUsuario = userRepository.findById(usuarioId);
+
+        if (isUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        Usuario usuario = isUsuario.get();
+
+        if (usuario.getPhotoProfileData() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG); // ou MediaType.IMAGE_PNG, dependendo do tipo de imagem
+
+        return new ResponseEntity<>(usuario.getPhotoProfileData(), headers, HttpStatus.OK);
+    }
     @PostMapping("/{usuarioId}/upload-photo")
     public ResponseEntity<String> uploadFotoPerfil(
             @PathVariable Integer usuarioId,
