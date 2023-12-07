@@ -82,4 +82,10 @@ public class EditorService {
 
         throw new EditorException("Editor não encontrado");
     }
+
+    public Editor getById(Integer id) {
+        return editorRepository.findById(id).orElseThrow(
+                ()-> new EditorException("Editor não encontrado!")
+        );
+    }
 }

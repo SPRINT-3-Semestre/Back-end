@@ -5,6 +5,7 @@ import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.*;
 import com.example.EditMatch.repository.PortfolioRepository;
 import com.example.EditMatch.repository.UserRepository;
+import com.example.EditMatch.service.editor.EditorService;
 import com.example.EditMatch.service.portfolio.exception.PortfolioException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,30 +16,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
-    private final UserRepository userRepository;
+    private final EditorService editorService;
 
     public Portifolio getPortfolioByEditorId(Integer editorId) {
-        Optional<Usuario> editorOptional = userRepository.findById(editorId);
-
-        if (editorOptional.isEmpty()) {
-            throw new PortfolioException("Editor não encontrado");
-        }
-
-        Usuario editor = editorOptional.get();
+        Editor editor =  editorService.getById(editorId);
         return portfolioRepository.findByEditor(editor)
                 .orElseThrow(() -> new PortfolioException("Portfólio não encontrado para o editor especificado"));
     }
 
     public Portifolio add(PortfolioCreateDto portfolioCreateDto) {
-        Optional<Usuario> isEditor = userRepository.findById(portfolioCreateDto.getEditorId());
-
-        if(isEditor.isEmpty()) {
-            throw new PortfolioException("Editor não encontrado");
-        }
-        Usuario usuario = isEditor.get();
+        Editor editor =  editorService.getById(portfolioCreateDto.getEditorId());
         Portifolio portifolio = PortfolioMapper.of(portfolioCreateDto);
-        portifolio.setEditor(usuario);
-
+        portifolio.setEditor(editor);
         return portfolioRepository.save(portifolio);
     }
 
