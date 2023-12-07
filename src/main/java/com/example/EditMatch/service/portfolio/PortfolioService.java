@@ -13,9 +13,21 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PortifolioService {
+public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
+
+    public Portifolio getPortfolioByEditorId(Integer editorId) {
+        Optional<Usuario> editorOptional = userRepository.findById(editorId);
+
+        if (editorOptional.isEmpty()) {
+            throw new PortfolioException("Editor não encontrado");
+        }
+
+        Usuario editor = editorOptional.get();
+        return portfolioRepository.findByEditor(editor)
+                .orElseThrow(() -> new PortfolioException("Portfólio não encontrado para o editor especificado"));
+    }
 
     public Portifolio add(PortfolioCreateDto portfolioCreateDto) {
         Optional<Usuario> isEditor = userRepository.findById(portfolioCreateDto.getEditorId());
@@ -43,10 +55,8 @@ public class PortifolioService {
         Portifolio existingPortfolio = portfolioRepository.findById(portfolioId)
                 .orElseThrow(() -> new PortfolioException("Portifolio não encontrado"));
 
-        existingPortfolio.setDesc(updatedPortfolioDto.getDesc());
         existingPortfolio.setLinkYtVideoId(updatedPortfolioDto.getLinkYtVideoId());
-        existingPortfolio.setLinkGit(updatedPortfolioDto.getLinkGit());
-        existingPortfolio.setLinkLinkedin(updatedPortfolioDto.getLinkLinkedin());
+        existingPortfolio.setTitle(updatedPortfolioDto.getTitle());
 
         return portfolioRepository.save(existingPortfolio);
     }
