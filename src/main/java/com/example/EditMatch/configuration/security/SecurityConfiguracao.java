@@ -26,7 +26,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -56,11 +55,12 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/editores"),
             new AntPathRequestMatcher("/editores/{id}"),
             new AntPathRequestMatcher("/editores/alerta"),
-       //     new AntPathRequestMatcher("/clientes"),
+            new AntPathRequestMatcher("/clientes"),
             new AntPathRequestMatcher("/clientes/{id}"),
             new AntPathRequestMatcher("/clientes/alerta"),
             new AntPathRequestMatcher("/usuarios"),
             new AntPathRequestMatcher("/usuarios/download/csv"),
+            new AntPathRequestMatcher("/usuarios/download/txt"),
             new AntPathRequestMatcher("/usuarios/login/**"),
             new AntPathRequestMatcher("/videos"),
             new AntPathRequestMatcher("/videos/{userId}"),
@@ -69,7 +69,9 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/abilitys/{id}"),
             new AntPathRequestMatcher("/abilitys/{desc}"),
             new AntPathRequestMatcher("/h2-console/**"),
-            new AntPathRequestMatcher("/error/**")
+            new AntPathRequestMatcher("/websocket/**"),
+            new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/usuarios/import/txt")
     };
 
     @Bean

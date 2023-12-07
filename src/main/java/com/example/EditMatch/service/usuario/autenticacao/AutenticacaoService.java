@@ -1,7 +1,7 @@
 package com.example.EditMatch.service.usuario.autenticacao;
 
-import com.example.EditMatch.Entity.Usuario;
-import com.example.EditMatch.Repository.UsuarioRepositoryJWT;
+import com.example.EditMatch.entity.Usuario;
+import com.example.EditMatch.repository.UsuarioRepositoryJWT;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioDetalhesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -6,6 +6,7 @@ public class UsuarioTokenDto {
     private String nome;
     private String email;
     private String token;
+    private Boolean isEditor;
 
     public Integer getUserId() {
         return userId;
@@ -39,4 +40,14 @@ public class UsuarioTokenDto {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public Boolean getEditor() {
+        return isEditor;
+    }
+
+    public void setEditor(Boolean editor) {
+        isEditor = editor;
+    }
 }
+
+

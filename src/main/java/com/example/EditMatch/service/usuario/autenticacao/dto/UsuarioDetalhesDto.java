@@ -1,6 +1,6 @@
 package com.example.EditMatch.service.usuario.autenticacao.dto;
 
-import com.example.EditMatch.Entity.Usuario;
+import com.example.EditMatch.entity.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

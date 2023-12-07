@@ -67,10 +67,9 @@ public class GerenciadorTokenJwt {
                     .parseClaimsJws(token);
             return claimsJws.getBody();
         } catch (MalformedJwtException e) {
-            // Adicione logs para depurar o token
             System.out.println("Erro ao analisar o token: " + token);
             e.printStackTrace();
-            throw e; // Re-lance a exceção ou trate conforme necessário
+            throw e;
         }
     }
 
