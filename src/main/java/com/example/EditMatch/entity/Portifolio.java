@@ -15,6 +15,6 @@ public class Portifolio {
     private String linkYtVideoId;
     @ManyToOne
     @JoinColumn(name = "fk_editor")
-    private Usuario editor;
+    private Editor editor;
 }
 

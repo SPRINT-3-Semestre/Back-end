@@ -7,4 +7,5 @@ public class PortfolioResponseDto {
     private String nomeEditor;
     private byte[] photoProfileData;
     private String title;
+    private String skills;
 }

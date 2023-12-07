@@ -35,12 +35,11 @@ public class PortfolioService {
         if(isEditor.isEmpty()) {
             throw new PortfolioException("Editor não encontrado");
         }
-        Usuario usuario = isEditor.get();
-        Portifolio portifolio = PortfolioMapper.of(portfolioCreateDto);
-        portifolio.setEditor(usuario);
 
+        Portifolio portifolio = PortfolioMapper.of(portfolioCreateDto, userRepository);
         return portfolioRepository.save(portifolio);
     }
+
 
     public Portifolio savePortfolio(Portifolio portifolio) {
         return portfolioRepository.save(portifolio);
