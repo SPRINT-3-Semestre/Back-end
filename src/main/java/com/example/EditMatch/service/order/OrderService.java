@@ -63,6 +63,15 @@ public class OrderService {
         orders.setEditor(null);
         orderRepository.deleteById(id);
     }
+
+    public void deleteOrder(Integer id) {
+        Optional<Orders> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isEmpty()) {
+            throw new OrderException("Ordem não encontrada");
+        }
+        orderRepository.deleteById(id);
+    }
+
     public List<Orders> getAllOrders() {
         return orderRepository.findAll();
     }

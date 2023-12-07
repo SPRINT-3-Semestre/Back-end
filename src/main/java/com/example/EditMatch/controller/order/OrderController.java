@@ -61,6 +61,11 @@ public class OrderController {
         orderService.edit(id,title,desc,skills);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Integer id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
+    }
     @DeleteMapping("/removeEditor/{id}")
     public ResponseEntity<Void>removeEditorFromOrder(@PathVariable Integer id){
         orderService.removeEditorFromOrder(id);
