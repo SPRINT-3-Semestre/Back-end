@@ -4,58 +4,43 @@ import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.*;
 import com.example.EditMatch.repository.PortfolioRepository;
-import com.example.EditMatch.repository.UserRepository;
-import com.example.EditMatch.service.editor.EditorService;
 import com.example.EditMatch.service.portfolio.exception.PortfolioException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
-    private final EditorService editorService;
 
-    public Portifolio getPortfolioByEditorId(Integer editorId) {
-        Editor editor =  editorService.getById(editorId);
-        return portfolioRepository.findByEditor(editor)
-                .orElseThrow(() -> new PortfolioException("Portfólio não encontrado para o editor especificado"));
+    public Portfolio adicionar(PortfolioCreateDto portfolioCreateDto) {
+        Usuario editor = portfolioCreateDto.getEditor();
+        Portfolio portfolio = PortfolioMapper.of(portfolioCreateDto);
+        portfolio.setEditor(editor);
+
+        // Salve o portfólio para obter o ID atribuído pelo banco de dados
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio);
+
+        // Atualize o ID do editor no portfólio
+        savedPortfolio.setEditor(editor);
+
+        // Salve novamente o portfólio para garantir que o ID do editor esteja configurado corretamente
+        return portfolioRepository.save(savedPortfolio);
     }
 
-    public Portifolio add(PortfolioCreateDto portfolioCreateDto) {
-        Editor editor =  editorService.getById(portfolioCreateDto.getEditorId());
-        Portifolio portifolio = PortfolioMapper.of(portfolioCreateDto);
-        portifolio.setEditor(editor);
-        return portfolioRepository.save(portifolio);
+    public Portfolio findPortfolioByEditorId(Integer id) {
+        return portfolioRepository.findByEditorId(id);
     }
 
-    public Portifolio savePortfolio(Portifolio portifolio) {
-        return portfolioRepository.save(portifolio);
-    }
+    public Portfolio updatePortfolio(Integer id, PortfolioCreateDto portfolioCreateDto) {
 
-    public Portifolio getPortfolioById(Integer portfolioId) {
-        return portfolioRepository.findById(portfolioId)
-                .orElseThrow(() -> new PortfolioException("Portifolio não encontrado"));
-    }
-
-    public Portifolio updatePortfolio(Integer portfolioId, PortfolioCreateDto updatedPortfolioDto) {
-        Portifolio existingPortfolio = portfolioRepository.findById(portfolioId)
-                .orElseThrow(() -> new PortfolioException("Portifolio não encontrado"));
-
-        existingPortfolio.setLinkYtVideoId(updatedPortfolioDto.getLinkYtVideoId());
-        existingPortfolio.setTitle(updatedPortfolioDto.getTitle());
-
-        return portfolioRepository.save(existingPortfolio);
-    }
-
-    public void deletePortfolio(Integer portfolioId) {
-        if (!portfolioRepository.existsById(portfolioId)) {
-            throw new PortfolioException("Portifolio não encontrado");
+        if(portfolioRepository.findByEditorId(id) == null){
+            throw new PortfolioException("Portfólio não encontrado");
         }
-        portfolioRepository.deleteById(portfolioId);
-    }
 
+        Portfolio portfolio = PortfolioMapper.of(portfolioCreateDto);
+        portfolio.setId(id);
+        return portfolioRepository.save(portfolio);
+    }
 
 }

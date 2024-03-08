@@ -3,8 +3,13 @@ package com.example.EditMatch.controller.editor;
 import com.example.EditMatch.controller.editor.dto.EditorCreateDto;
 import com.example.EditMatch.controller.editor.dto.EditorResponseDto;
 import com.example.EditMatch.controller.editor.mapper.EditorMapper;
+import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
+import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.Editor;
+import com.example.EditMatch.entity.Portfolio;
+import com.example.EditMatch.repository.PortfolioRepository;
 import com.example.EditMatch.service.editor.EditorService;
+import com.example.EditMatch.service.portfolio.PortfolioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +28,7 @@ import java.util.List;
 public class EditorController {
 
     private final EditorService editorService;
+    private final PortfolioService portfolioService;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obter editor por ID", notes = "Retorna o editor com o ID especificado")
@@ -36,8 +42,15 @@ public class EditorController {
     @SecurityRequirement(name = "Bearer")
     @ApiOperation(value = "Cadastrar editor", notes = "Retorna o editor cadastrado")
     public ResponseEntity<EditorResponseDto> register(@RequestBody @Valid EditorCreateDto editorCreateDto) {
+
         Editor register = editorService.register(editorCreateDto);
         EditorResponseDto editorResponseDto = EditorMapper.of(register);
+
+        PortfolioCreateDto portfolioCreateDto = new PortfolioCreateDto();
+        portfolioCreateDto.setEditor(register);
+
+        Portfolio portfolio = portfolioService.adicionar(portfolioCreateDto);
+
         return ResponseEntity.status(201).body(editorResponseDto);
     }
 

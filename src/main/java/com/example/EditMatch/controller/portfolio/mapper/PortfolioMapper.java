@@ -2,25 +2,22 @@ package com.example.EditMatch.controller.portfolio.mapper;
 
 import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.controller.portfolio.dto.PortfolioResponseDto;
-import com.example.EditMatch.entity.Portifolio;
+import com.example.EditMatch.entity.Portfolio;
 
 public class PortfolioMapper {
-    public static Portifolio of(PortfolioCreateDto portfolioCreateDto){
-        Portifolio portifolio = new Portifolio();
+    public static Portfolio of(PortfolioCreateDto portfolioCreateDto){
+        Portfolio portfolio = new Portfolio();
 
-        portifolio.setLinkYtVideoId(portfolioCreateDto.getLinkYtVideoId());
-        portifolio.setTitle(portfolioCreateDto.getTitle());
-
-        return portifolio;
+        return portfolio;
     }
 
-    public static PortfolioResponseDto of(Portifolio portifolio) {
+    public static PortfolioResponseDto of(Portfolio portfolio) {
         PortfolioResponseDto portfolioResponseDto = new PortfolioResponseDto();
 
-        portfolioResponseDto.setEditorId(portifolio.getEditor().getId());
-        portfolioResponseDto.setNomeEditor(portifolio.getEditor().getNome());
-        portfolioResponseDto.setPhotoProfileData(portifolio.getEditor().getPhotoProfileData());
-        portfolioResponseDto.setTitle(portifolio.getTitle());
+        portfolioResponseDto.setEditorId(portfolio.getEditor().getId());
+        portfolioResponseDto.setNomeEditor(portfolio.getEditor().getNome());
+        portfolioResponseDto.setPhotoProfileData(portfolio.getEditor().getPhotoProfileData());
+        portfolioResponseDto.setTitle(portfolio.getTitle());
 
         return portfolioResponseDto;
     }

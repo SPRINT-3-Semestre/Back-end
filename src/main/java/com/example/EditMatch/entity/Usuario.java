@@ -53,6 +53,9 @@ public class Usuario {
     @Transient
     private MultipartFile photoProfileFile;
 
+    @OneToOne(mappedBy = "editor")
+    private Portfolio portfolio;
+
     public Usuario() {
     }
 

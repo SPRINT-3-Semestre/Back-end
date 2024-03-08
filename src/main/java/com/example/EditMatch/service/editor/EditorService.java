@@ -2,10 +2,12 @@ package com.example.EditMatch.service.editor;
 
 import com.example.EditMatch.controller.editor.dto.EditorCreateDto;
 import com.example.EditMatch.controller.editor.mapper.EditorMapper;
+import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.repository.EditorRepository;
 import com.example.EditMatch.repository.UserRepository;
 import com.example.EditMatch.service.editor.exception.EditorException;
+import com.example.EditMatch.service.portfolio.PortfolioService;
 import com.example.EditMatch.service.usuario.UsuarioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class EditorService {
 
     private final EditorRepository editorRepository;
     private final UsuarioService usuarioService;
+    private final PortfolioService portfolioService;
     private final UserRepository userRepository;
 
     public EditorResumoDto listSummary(Integer id) {
@@ -47,7 +50,6 @@ public class EditorService {
         if (editor1 != null) {
             throw new EditorException("Editor não encontrado");
         }
-
         Editor editorMapped = EditorMapper.of(editorCreateDto);
         usuarioService.cadastrar(editorMapped);
         return userRepository.save(editorMapped);
