@@ -5,9 +5,9 @@ import com.example.EditMatch.controller.portfolio.dto.PortfolioResponseDto;
 import com.example.EditMatch.entity.Portfolio;
 
 public class PortfolioMapper {
-    public static Portfolio of(PortfolioCreateDto portfolioCreateDto){
+    // Cria um Portfolio a partir de um PortfolioCreateDto
+    public static Portfolio of(PortfolioCreateDto portfolioCreateDto) {
         Portfolio portfolio = new Portfolio();
-
         return portfolio;
     }
 
