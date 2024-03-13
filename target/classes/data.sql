@@ -1,0 +1,2 @@
+INSERT INTO Usuario (DTYPE, nome, last_name, rg, cpf, birth, gender, is_editor, email, password, desc_profile, created_at, updated_at, data_entrega, valor_hora, chave_pix, address_id, photo_profile_data)
+VALUES ('Editor', 'Nome', 'Sobrenome', '123456789', '12345678901', '1990-01-01', 0, true, 'email@example.com', 'senha1234', 'Descrição do perfil', '2023-01-01T14:00:00', '2023-01-01T14:00:00', '2024-01-01', 50.0, 'chavePix123', null,null);
