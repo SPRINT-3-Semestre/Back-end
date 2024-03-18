@@ -8,6 +8,7 @@ import com.example.EditMatch.entity.Orders;
 import com.example.EditMatch.repository.ClientFinalRepository;
 import com.example.EditMatch.repository.EditorRepository;
 import com.example.EditMatch.repository.OrderRepository;
+import com.example.EditMatch.service.email.EmailService;
 import com.example.EditMatch.service.order.exception.OrderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,15 @@ public class OrderService {
     private final ClientFinalRepository clientFinalRepository;
     private final OrderRepository orderRepository;
     private final EditorRepository editorRepository;
+    private final EmailService emailService;
 
     public Orders add(OrderCreateDto orderCreateDto) {
         ClientFinal clientFinal = clientFinalRepository.findById(orderCreateDto.getClientFinal())
                 .orElseThrow(() -> new OrderException("Cliente não encontrado"));
 
         Orders newOrders = OrderMapper.toOrder(orderCreateDto, clientFinal, null);
+
+        emailService.sendNewProjectEmail(clientFinal.getEmail(), clientFinal.getNome(),clientFinal.getLast_name(), newOrders.getTitle());
 
         return orderRepository.save(newOrders);
     }

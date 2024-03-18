@@ -1,5 +1,6 @@
 package com.example.EditMatch.configuration.email;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,11 +13,15 @@ public class MailConfig {
 
     @Bean
     public JavaMailSender javaMailSender() {
+        Dotenv dotenv = Dotenv.load();
+        String emailUsername = dotenv.get("EMAIL_USERNAME");
+        String emailPassword = dotenv.get("EMAIL_PASSWORD");
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587); // Porta padrão para SMTP
-        mailSender.setUsername("editmatchwork@gmail.com");
-        mailSender.setPassword("chxjqvzqtasrsudr");
+        mailSender.setPort(587);
+        mailSender.setUsername(emailUsername);
+        mailSender.setPassword(emailPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
