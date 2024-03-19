@@ -6,6 +6,7 @@ import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.entity.Usuario;
 import com.example.EditMatch.repository.UsuarioRepositoryJWT;
 import com.example.EditMatch.configuration.security.jwt.GerenciadorTokenJwt;
+import com.example.EditMatch.service.email.EmailService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioLoginDto;
 import com.example.EditMatch.service.usuario.autenticacao.dto.UsuarioTokenDto;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +42,16 @@ public class UsuarioService {
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
     private final AuthenticationManager authenticationManager;
 
+
+    private final EmailService emailService;
+
     public void cadastrar(Usuario usuario) {
         String senhaCriptografada = passwordEncoder.encode(usuario.getPassword());
         usuario.setPassword(senhaCriptografada);
         this.usuarioRepositoryJwt.save(usuario);
+
+        // Envie o e-mail de boas-vindas
+        emailService.sendWelcomeEmail(usuario.getEmail(),usuario.getNome(),usuario.getLast_name());
     }
 
     public void atualizar(int id, Editor novoEditor) {

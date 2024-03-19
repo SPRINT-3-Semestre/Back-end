@@ -18,6 +18,10 @@ HELP.md
 *.iml
 *.ipr
 
+### dotEnv ###
+.env
+
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
