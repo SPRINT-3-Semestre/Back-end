@@ -71,6 +71,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/websocket/**"),
             new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/api/files/**"),
             new AntPathRequestMatcher("/usuarios/import/txt")
     };
 
