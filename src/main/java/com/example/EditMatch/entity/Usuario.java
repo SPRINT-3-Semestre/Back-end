@@ -56,6 +56,8 @@ public class Usuario {
     @OneToOne(mappedBy = "editor")
     private Portfolio portfolio;
 
+
+
     public Usuario() {
     }
 
