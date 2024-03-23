@@ -7,7 +7,10 @@ import com.example.EditMatch.controller.portfolio.dto.PortfolioCreateDto;
 import com.example.EditMatch.controller.portfolio.mapper.PortfolioMapper;
 import com.example.EditMatch.entity.Editor;
 import com.example.EditMatch.entity.Portfolio;
+import com.example.EditMatch.entity.Usuario;
+import com.example.EditMatch.entity.carteira.Carteira;
 import com.example.EditMatch.repository.PortfolioRepository;
+import com.example.EditMatch.service.carteira.CarteiraService;
 import com.example.EditMatch.service.editor.EditorService;
 import com.example.EditMatch.service.portfolio.PortfolioService;
 import com.example.EditMatch.service.usuario.autenticacao.dto.EditorResumoDto;
@@ -16,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +33,7 @@ public class EditorController {
 
     private final EditorService editorService;
     private final PortfolioService portfolioService;
+    private final CarteiraService carteiraService;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Obter editor por ID", notes = "Retorna o editor com o ID especificado")
@@ -50,6 +55,8 @@ public class EditorController {
         portfolioCreateDto.setEditor(register);
 
         Portfolio portfolio = portfolioService.adicionar(portfolioCreateDto);
+
+        Carteira carteira = carteiraService.criarCarteira(register);
 
         return ResponseEntity.status(201).body(editorResponseDto);
     }

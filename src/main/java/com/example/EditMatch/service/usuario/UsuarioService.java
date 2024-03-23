@@ -329,7 +329,4 @@ public class UsuarioService {
             System.out.println(a);
         }
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.EditMatch.entity;
 
+import com.example.EditMatch.entity.carteira.Carteira;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
