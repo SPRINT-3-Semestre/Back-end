@@ -51,7 +51,7 @@ public class UsuarioService {
         this.usuarioRepositoryJwt.save(usuario);
 
         // Envie o e-mail de boas-vindas
-        emailService.sendWelcomeEmail(usuario.getEmail(),usuario.getNome(),usuario.getLast_name());
+//        emailService.sendWelcomeEmail(usuario.getEmail(),usuario.getNome(),usuario.getLast_name());
     }
 
     public void atualizar(int id, Editor novoEditor) {

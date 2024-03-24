@@ -29,7 +29,6 @@ public class CarteiraMapper {
             TransacaoResponseDto transacaoDto = new TransacaoResponseDto();
             transacaoDto.setTipo(transacao.getTipo());
             transacaoDto.setValor(transacao.getValor());
-            transacaoDto.setDataHora(transacao.getDataHora());
             transacoesDto.add(transacaoDto);
         }
         responseDto.setTransacoes(transacoesDto);
