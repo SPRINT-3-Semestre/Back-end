@@ -14,7 +14,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private String desc;
+    private String describle;
     private String skills;
     @ManyToOne
     @JoinColumn(name = "fk_editor")

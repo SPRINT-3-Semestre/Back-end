@@ -16,7 +16,4 @@ public class Pagamento {
     private Integer expiracaoMes;
     private Integer status;
     private LocalDateTime crateAt;
-    @OneToOne
-    private Servico servico;
-    
 }
