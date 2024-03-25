@@ -78,6 +78,7 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/transacao/{id}"),
             new AntPathRequestMatcher("/transacao/sacar/{id}"),
             new AntPathRequestMatcher("/transacao/qrcode/{locId}"),
+            new AntPathRequestMatcher("/usuarios/adicionar-video/{id}"),
     };
 
     @Bean

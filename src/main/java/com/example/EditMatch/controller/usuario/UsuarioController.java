@@ -171,4 +171,11 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
 
     }
+
+    @PostMapping("/adicionar-video/{id}")
+    public ResponseEntity<String> adicionarVideo(@PathVariable Integer id, @RequestBody String link) {
+        usuarioService.adicionarVideo(id,link);
+        return ResponseEntity.ok().body("Video adicionado com sucesso");
+    }
+
 }

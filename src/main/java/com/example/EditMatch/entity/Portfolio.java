@@ -15,8 +15,6 @@ public class Portfolio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private List<String> linkYtVideoId;
-
     @JsonIgnore
     @OneToOne
     private Usuario editor;

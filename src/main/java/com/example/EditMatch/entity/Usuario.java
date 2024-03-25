@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,7 +55,7 @@ public class Usuario {
     private byte[] photoProfileData;
     @Transient
     private MultipartFile photoProfileFile;
-
+    private List<String> linkYtVideoId = new ArrayList<>();
     @OneToOne(mappedBy = "editor")
     private Portfolio portfolio;
 

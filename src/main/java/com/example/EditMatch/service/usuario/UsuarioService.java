@@ -329,4 +329,19 @@ public class UsuarioService {
             System.out.println(a);
         }
     }
+
+    public void adicionarVideo(Integer id, String link) {
+        Usuario usuario = usuarioRepositoryJwt.findById(id);
+        if (usuario != null) {
+            if (usuario.getLinkYtVideoId() == null) {
+                usuario.setLinkYtVideoId(new ArrayList<>());
+            }
+            usuario.getLinkYtVideoId().add(link);
+            usuarioRepositoryJwt.save(usuario);
+        } else {
+            throw new RuntimeException("Usuário não encontrado com o ID: " + id);
+        }
+    }
+
+
 }
