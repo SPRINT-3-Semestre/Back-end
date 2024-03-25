@@ -25,10 +25,10 @@ public class Auth {
         String token="";
         try {
             //Diretório em que seu certificado em formato .p12 deve ser inserido
-            System.setProperty("javax.net.ssl.keyStore", "homologacao-559243-Plataforma de Freelancers.p12");
+            System.setProperty("javax.net.ssl.keyStore", "producao-559243-editmatch.p12");
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
-            URL url = new URL ("https://api-pix-h.gerencianet.com.br/oauth/token"); //Para ambiente de Desenvolvimento
+            URL url = new URL ("https://pix.api.efipay.com.br/oauth/token");
             HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");

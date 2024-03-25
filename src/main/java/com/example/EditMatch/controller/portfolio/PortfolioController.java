@@ -21,9 +21,10 @@ public class PortfolioController {
     private PortfolioService portfolioService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Portfolio> findPortfolioByEditorId(@PathVariable Integer id) {
-        Portfolio portfolio = portfolioService.findPortfolioByEditorId(id);
-        return ResponseEntity.ok(portfolio);
+    public ResponseEntity<PortfolioResponseDto> findPortfolioByEditorId(@PathVariable Integer id) {
+
+        PortfolioResponseDto portfolioResponseDto = PortfolioMapper.of(portfolioService.findPortfolioByEditorId(id));
+        return ResponseEntity.ok(portfolioResponseDto);
     }
 
     @PutMapping("/{id}")

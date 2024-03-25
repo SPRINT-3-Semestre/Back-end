@@ -8,6 +8,8 @@ public class PortfolioMapper {
     public static Portfolio of(PortfolioCreateDto portfolioCreateDto){
         Portfolio portfolio = new Portfolio();
 
+        // Mapeie os valores do DTO para o objeto Portfolio, se necessário
+
         return portfolio;
     }
 
@@ -18,6 +20,7 @@ public class PortfolioMapper {
         portfolioResponseDto.setNomeEditor(portfolio.getEditor().getNome());
         portfolioResponseDto.setPhotoProfileData(portfolio.getEditor().getPhotoProfileData());
         portfolioResponseDto.setTitle(portfolio.getTitle());
+        portfolioResponseDto.setValor(portfolio.getEditor().getValorHora());
 
         return portfolioResponseDto;
     }

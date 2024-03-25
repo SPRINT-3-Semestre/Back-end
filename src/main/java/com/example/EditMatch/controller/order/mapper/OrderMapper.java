@@ -13,7 +13,7 @@ public class OrderMapper {
         return new Orders(
                 null,
                 orderCreateDto.getTitle(),
-                orderCreateDto.getDesc(),
+                orderCreateDto.getDescrible(),
                 orderCreateDto.getSkills().toString(),
                 null,
                 clientFinal
@@ -23,7 +23,7 @@ public class OrderMapper {
         Orders orders = new Orders();
 
         orders.setTitle(orderCreateDto.getTitle());
-        orders.setDescrible(orderCreateDto.getDesc());
+        orders.setDescrible(orderCreateDto.getDescrible());
         orders.setSkills(orderCreateDto.getSkills().toString());
         orders.setClientFinal(orders.getClientFinal());
         orders.setEditor(null);

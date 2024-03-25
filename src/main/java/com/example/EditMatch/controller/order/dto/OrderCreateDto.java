@@ -12,7 +12,7 @@ public class OrderCreateDto {
     @NotBlank(message = "O título não pode estar em branco")
     private String title;
     @NotBlank(message = "A descrição não pode estar em branco")
-    private String desc;
+    private String Describle;
     @Size(min = 1, message = "Pelo menos uma habilidade deve ser especificada")
     private List<String> skills;
     @NotNull

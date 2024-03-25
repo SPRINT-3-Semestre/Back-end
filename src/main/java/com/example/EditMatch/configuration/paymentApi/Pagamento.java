@@ -35,7 +35,7 @@ public class Pagamento {
             String txid;
             Generex generex = new Generex("[a-zA-Z0-9]{26,35}");
             txid = generex.random();
-            URL url = new URL("https://api-pix-h.gerencianet.com.br/v2/cob/" + txid);
+            URL url = new URL("https://pix.api.efipay.com.br/v2/cob/" + txid);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("PUT");
@@ -72,7 +72,7 @@ public class Pagamento {
     public static StringBuilder enviarQrCode(String token, Integer id) {
         StringBuilder qrCodeResponse = new StringBuilder();
         try {
-            URL url = new URL("https://api-pix-h.gerencianet.com.br/v2/loc/" + id + "/qrcode");
+            URL url = new URL("https://pix.api.efipay.com.br/v2/cob/" + id + "/qrcode");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("GET");
