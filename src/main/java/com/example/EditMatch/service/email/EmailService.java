@@ -26,4 +26,20 @@ public class EmailService {
         message.setText("Olá, " + name + " " + last_name +"\n\nVocê criou um novo projeto:  " + nameProject + ".\n\nAtenciosamente,\nEditMatch");
         emailSender.send(message);
     }
+
+    public void sendAssociateEditorEmail(String toEmail,String name, String nameProject, String link){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Novo video para editar!");
+        message.setText("Olá, " + name + " " + "\n\nVocê foi associado a um novo projeto:  " + nameProject + "\n\nLink do projeto: " + link + ".\n\nAtenciosamente,\nEditMatch");
+        emailSender.send(message);
+    }
+    public void sendFinishOrderEmail(String toEmail,String name, String nameProject, String link){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Projeto finalizado!");
+        message.setText("Olá, " + name + " " + "\n\nSeu projeto:  " + nameProject + " foi finalizado.\n\nLink do projeto atualizado: " + link + ".\n\nAtenciosamente,\nEditMatch");
+        emailSender.send(message);
+    }
+
 }

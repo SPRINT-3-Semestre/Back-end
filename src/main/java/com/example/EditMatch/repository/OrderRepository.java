@@ -2,6 +2,7 @@ package com.example.EditMatch.repository;
 
 import com.example.EditMatch.entity.ClientFinal;
 import com.example.EditMatch.entity.Orders;
+import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,5 +14,8 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 
     @Query("UPDATE Orders o SET o.title = :title, o.describle = :desc, o.skills = :skills WHERE o.id = :id")
     Integer editOrder(Integer id, String title, String desc, String skills);
+
+    //getOrdersByEditorId
+    List<Orders> findByEditorId(Integer editorId);
 
 }

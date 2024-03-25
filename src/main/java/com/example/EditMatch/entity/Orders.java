@@ -16,6 +16,7 @@ public class Orders {
     private String title;
     private String describle;
     private String skills;
+    private String link;
     @ManyToOne
     @JoinColumn(name = "fk_editor")
     private Editor editor;

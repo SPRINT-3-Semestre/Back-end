@@ -72,7 +72,7 @@ public class Pagamento {
     public static StringBuilder enviarQrCode(String token, Integer id) {
         StringBuilder qrCodeResponse = new StringBuilder();
         try {
-            URL url = new URL("https://pix.api.efipay.com.br/v2/cob/" + id + "/qrcode");
+            URL url = new URL("https://pix.api.efipay.com.br/v2/loc/" + id + "/qrcode");
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("GET");

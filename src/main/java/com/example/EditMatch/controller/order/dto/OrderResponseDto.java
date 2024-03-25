@@ -8,6 +8,7 @@ public class OrderResponseDto {
     private String title;
     private String desc;
     private String skills;
+    private String link;
     private Integer orderId;
     private Integer editorId;
 }

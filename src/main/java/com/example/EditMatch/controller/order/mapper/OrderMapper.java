@@ -15,6 +15,7 @@ public class OrderMapper {
                 orderCreateDto.getTitle(),
                 orderCreateDto.getDescrible(),
                 orderCreateDto.getSkills().toString(),
+                orderCreateDto.getLink(),
                 null,
                 clientFinal
         );
@@ -26,6 +27,7 @@ public class OrderMapper {
         orders.setDescrible(orderCreateDto.getDescrible());
         orders.setSkills(orderCreateDto.getSkills().toString());
         orders.setClientFinal(orders.getClientFinal());
+        orders.setLink(orderCreateDto.getLink());
         orders.setEditor(null);
 
         return orders;
@@ -37,6 +39,7 @@ public class OrderMapper {
         orderResponseDto.setTitle(orders.getTitle());
         orderResponseDto.setDesc(orders.getDescrible());
         orderResponseDto.setSkills(orders.getSkills());
+        orderResponseDto.setLink(orders.getLink());
         if (orders.getEditor() != null) {
             orderResponseDto.setEditorId(orders.getEditor().getId());
         }

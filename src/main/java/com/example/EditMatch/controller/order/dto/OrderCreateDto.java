@@ -15,6 +15,7 @@ public class OrderCreateDto {
     private String Describle;
     @Size(min = 1, message = "Pelo menos uma habilidade deve ser especificada")
     private List<String> skills;
+    private String Link;
     @NotNull
     private Integer clientFinal;
     private Integer editor;

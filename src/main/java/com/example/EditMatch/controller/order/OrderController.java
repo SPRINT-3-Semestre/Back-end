@@ -44,11 +44,37 @@ public class OrderController {
         }
         return ResponseEntity.ok(orderResponseDtoList);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable Integer id) {
+        Orders order = orderService.getOrderById(id);
+        OrderResponseDto orderResponseDto = OrderMapper.of(order);
+        return ResponseEntity.ok(orderResponseDto);
+    }
     @PostMapping
     public ResponseEntity<OrderResponseDto>add(@Valid @RequestBody OrderCreateDto orderCreateDto){
         Orders add = orderService.add(orderCreateDto);
         OrderResponseDto orderResponseDto = OrderMapper.of(add);
         return ResponseEntity.ok(orderResponseDto);
+    }
+
+    @GetMapping("/editor/{id}")
+    public ResponseEntity<List<OrderResponseDto>> getOrdersByEditor(@PathVariable Integer id) {
+        List<Orders> orders = orderService.getOrdersByEditorId(id);
+        if (orders.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<OrderResponseDto> orderResponseDtoList = new ArrayList<>();
+        for (Orders order : orders) {
+            orderResponseDtoList.add(OrderMapper.of(order));
+        }
+        return ResponseEntity.ok(orderResponseDtoList);
+    }
+
+    @PatchMapping("/{orderId}/finish")
+    public ResponseEntity<Void> finishOrder(@PathVariable Integer orderId, @RequestParam String link){
+        orderService.finishOrder(orderId, link);
+        return ResponseEntity.noContent().build();
     }
     @PatchMapping("/{orderId}/associate-editor/{editorId}")
     public ResponseEntity<Void> associateEditor(@PathVariable Integer orderId, @PathVariable Integer editorId) {
