@@ -69,13 +69,11 @@ public class TransacaoController {
     public ResponseEntity<SaqueResponseDto> sacar(@RequestBody TransacaoCreateSaqueDto transacaoCreateSaqueDto, @PathVariable Integer id) {
 
         Carteira carteira = carteiraService.findByIdUsuario(id);
-        Carteira saque = carteiraService.sacar(carteira, transacaoCreateSaqueDto.getValor());
+        carteiraService.sacar(carteira, transacaoCreateSaqueDto.getValor());
 
-        String message = "Transação efetuada com sucesso!";
+        SaqueResponseDto responseDto = TransacaoMapper.saqueResponse(transacaoCreateSaqueDto);
 
-
-        SaqueResponseDto responseDto = new SaqueResponseDto(transacaoCreateSaqueDto.getValor(),message);
-        Transacao add = transacaoService.saque(transacaoCreateSaqueDto, id);
+        transacaoService.saque(transacaoCreateSaqueDto, id);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)

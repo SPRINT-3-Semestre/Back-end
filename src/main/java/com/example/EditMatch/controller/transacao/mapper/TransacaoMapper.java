@@ -1,5 +1,6 @@
 package com.example.EditMatch.controller.transacao.mapper;
 
+import com.example.EditMatch.controller.transacao.dto.SaqueResponseDto;
 import com.example.EditMatch.controller.transacao.dto.TransacaoCreateDto;
 import com.example.EditMatch.controller.transacao.dto.TransacaoResponseDto;
 import com.example.EditMatch.controller.transacao.dto.TransacaoCreateSaqueDto;
@@ -23,7 +24,7 @@ public class TransacaoMapper {
     }
 
     public static Transacao toSaque(TransacaoCreateSaqueDto transacaoCreateSaqueDto, Carteira carteira) {
-        LocalDateTime dataHora = transacaoCreateSaqueDto.getDataHora();
+        LocalDateTime dataHora = LocalDateTime.now();
 
         return new Transacao(
                 null,
@@ -32,6 +33,17 @@ public class TransacaoMapper {
                 transacaoCreateSaqueDto.getTipo(),
                 carteira
         );
+    }
+
+    public static SaqueResponseDto saqueResponse(TransacaoCreateSaqueDto transacao){
+        SaqueResponseDto saqueResponseDto = new SaqueResponseDto();
+        LocalDateTime dataHora = transacao.getDataHora();
+
+        saqueResponseDto.setValor(transacao.getValor());
+        saqueResponseDto.setTipo(transacao.getTipo());
+        saqueResponseDto.setDataHora(dataHora);
+
+        return saqueResponseDto;
     }
 
 

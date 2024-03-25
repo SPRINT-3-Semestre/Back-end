@@ -1,8 +1,6 @@
 package com.example.EditMatch.controller.transacao.dto;
 
-import com.example.EditMatch.entity.carteira.Carteira;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.api.client.util.DateTime;
 import lombok.Data;
 
 import java.time.LocalDateTime;
